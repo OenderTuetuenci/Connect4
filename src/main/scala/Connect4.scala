@@ -5,6 +5,13 @@ object Connect4 {
     val test = new Grid
     test.put(1,1)
     test.put(1,1)
-    print(test.toString)
+    test.put(1,1)
+    test.put(1,1)
+    test.put(1,1)
+    test.put(1,1)
+    test.put(1,1)
+    test.put(1,1)
+    println(test.toString)
+    println(test.put(1,1))
   }
 }
