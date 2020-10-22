@@ -1,5 +1,5 @@
 package model
 
-class Player {
-
+case class Player(color:String) {
+  def getColor : String = color
 }
