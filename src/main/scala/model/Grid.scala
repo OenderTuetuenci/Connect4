@@ -43,7 +43,7 @@ class Grid {
   private def checkHorizontal(stone: (Int, Int), player: Int): Boolean = {
     val row: Int = stone._1
     var count:Int = 0
-    var old:Int = grid(row)(0)
+    var old:Int = 0
     for (i <- 0 to 6) {
       if (grid(row)(i) == player && old == player)
         count += 1
@@ -63,12 +63,16 @@ class Grid {
  */
   private def checkVertical(stone: (Int, Int), player: Int): Boolean = {
     val column: Int = stone._2
-    var count = 0
+    var count:Int = 0
+    var old:Int = 0
     for (i <- 0 to 5) {
-      if (grid(i)(column) == player)
+      if (grid(i)(column) == player && old == player)
         count += 1
+      else if(grid(i)(column) != player && count < 3)
+        count = 0
+      old = grid(i)(column)
     }
-    if (count >= 4)
+    if (count >= 3)
       true
     else
       false
@@ -89,24 +93,30 @@ class Grid {
     //check diagonal lr
     var r: Int = splr._1
     var c: Int = splr._2
+    var o: Int = 0
     while (r < 6 && c > 0) {
-      if (grid(r)(c) == player) {
+      if (grid(r)(c) == player && o == player) {
         countlr += 1
-      }
+      }else if(grid (r)(c) != player && countlr < 3)
+        countlr = 0
+      o = grid(r)(c)
       r += 1
       c -= 1
     }
     //check diagonal rl
     r = sprl._1
     c = sprl._2
+    o = 0
     while (r < 6 && c < 7) {
-      if (grid(r)(c) == player) {
+      if (grid(r)(c) == player && o == player) {
         countrl += 1
-      }
+      }else if(grid(r)(c) != player && countrl < 3)
+        countrl = 0
+      o = grid(r)(c)
       r += 1
       c += 1
     }
-    if (countlr >= 4 || countrl >= 4)
+    if (countlr >= 3 || countrl >= 3)
       true
     else
       false
