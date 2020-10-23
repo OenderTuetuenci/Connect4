@@ -1,12 +1,9 @@
 import model.{Grid, Player}
+import view.TUI
+import controller.Controller
 
-var grid = new Grid
+val c = new Controller(new Grid)
+val t = new TUI(c)
 
-for (i <- 1 to 4) grid.put(0, 1)
-for (i <- 1 to 3) grid.put(3, 1)
-
-println(grid.toString)
-grid.checkConnect4(grid.put(3, 1),1)
-
-println(grid.toString)
-
+//println(c.showGrid())
+//t.printGrid()
