@@ -1,34 +1,41 @@
-import scala.util.control
-import model.Grid
+import model.{Grid, Player}
 
 import scala.io.StdIn
 import java.util.Scanner
+
 import scala.util.control.Breaks.break
+import view.TUI
 
 object Connect4 {
   def main(args: Array[String]): Unit = {
     val test = new Grid
-
-
     val scanner = new Scanner(System.in)
 
-    while(true){
-      println(test.toString)
-      println("player 1 input column (between 0 and 6)")
-      var input = scanner.next()
-      if (input == "q") break // well it doesn't work....
-      test.put(input.toInt, 1)
-      if (test.checkConnect4((input.toInt,0),1)) break() // doesn't work either
+    // note: statt schleife eine endrekursion aufrufen. That would be proper functional programming!
+    var input = "0"
 
+   def move(player:Int): Unit ={
+     if (test.checkConnect4(test.put(input.toInt, player),player)) {
+       println(test.toString)
+       println("Player " + player + " hat gewonnen!")
+       input = "q"
+     }
+   }
+
+    var players = 1::2::Nil
+
+    def processInput(){}
+
+    do {
       println(test.toString)
-      println("player 2 input column (between 1 and 7)")
+      println("player " + players.head + " input column (between 0 and 6)")
       input = scanner.next()
-      if (input == "q") break
-      test.put(input.toInt, 2)
+      if (input != "q") move(players.head)
+      players = players.tail:::players.head::Nil
 
-      if (test.checkConnect4((input.toInt,0),2)) break() // doesn't work either
-    }
+    } while(input != "q")
 
+    /*
     test.put(1,2)
     test.put(2,1)
     test.put(2,2)
@@ -51,5 +58,6 @@ object Connect4 {
     //test.put(1,2)
     println(test.toString)
     println(test.checkConnect4((0,6),2))
+    */
   }
 }
