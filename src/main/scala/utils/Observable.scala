@@ -1,8 +1,7 @@
 package utils
 
 trait Observer{
-  def update(e: String): Any
-
+  def update:Unit
 }
 
 class Observable {
@@ -10,5 +9,5 @@ class Observable {
   def add(s: Observer): Unit = subscribers = subscribers :+ s
   def remove(s: Observer): Unit = subscribers = subscribers.filterNot(o => o == s)
 
-  def notifyObservers(e: String): Unit = subscribers.foreach(o => o.update(e))
+  def notifyObservers: Unit = subscribers.foreach(o => o.update)
 }
