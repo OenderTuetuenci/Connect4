@@ -6,7 +6,7 @@ object Connect4 {
     test.put(1,2)
     test.put(2,1)
     test.put(2,2)
-    test.put(3,1)
+    test.put(3,2)
     test.put(3,1)
     test.put(3,2)
     test.put(4,1)
@@ -17,6 +17,7 @@ object Connect4 {
     test.put(1,1)
     test.put(1,1)
     test.put(1,1)
+    test.put(5,1)
     //test.put(0,1)
     //test.put(2,1)
     //test.put(3,1)
@@ -24,6 +25,6 @@ object Connect4 {
     //test.put(1,2)
     //test.put(1,2)
     println(test.toString)
-    println(test.checkConnect4((0,6),2))
+    println(test.checkConnect4((5,1),1))
   }
 }

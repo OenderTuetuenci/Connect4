@@ -42,13 +42,16 @@ class Grid {
    */
   private def checkHorizontal(stone: (Int, Int), player: Int): Boolean = {
     val row: Int = stone._1
-    var count = 0
+    var count:Int = 0
+    var old:Int = grid(row)(0)
     for (i <- 0 to 6) {
-      if (grid(row)(i) == player) {
+      if (grid(row)(i) == player && old == player)
         count += 1
-      }
+      else if(grid(row)(i) != player && count < 3)
+        count = 0
+      old = grid(row)(i)
     }
-    if (count >= 4)
+    if (count >= 3)
       true
     else
       false
