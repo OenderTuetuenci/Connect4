@@ -1,4 +1,4 @@
-import model.{Grid, Player}
+import model.Grid
 import view.TUI
 import controller.Controller
 

@@ -1,6 +1,6 @@
 package controller.Commands
 
-import controller.Controller
+import controller.{Controller, blockedColumnEvent, endGameEvent, updateGridEvent}
 import utils.Command
 
 
@@ -10,35 +10,35 @@ class MoveCommand(column:Int,player:Int, controller:Controller) extends Command{
     stone = controller.grid.put(column, player)
     var end: Boolean = false
     if(stone.equals((-1,-1)))
-      controller.notifyObservers("blockedColumn")
+      controller.publish(new blockedColumnEvent)
     else {
+      controller.publish(updateGridEvent(stone,player))
       end = controller.checkForWinner(stone)
       if(!end) {
         controller.nextPlayer()
-        controller.notifyObservers("updateGrid")
       }
       else
-        controller.notifyObservers("endGame")
+        controller.publish(new endGameEvent)
     }
   }
   override def undoStep(): Unit = {
     controller.grid.resetValue(stone._1,stone._2)
     controller.resetPlayer(player)
-    controller.notifyObservers("updateGrid")
+    controller.publish(updateGridEvent(stone,0))
   }
   override def redoStep(): Unit = {
     stone = controller.grid.put(column, player)
     var end: Boolean = false
     if(stone.equals((-1,-1)))
-      controller.notifyObservers("blockedColumn")
+      controller.publish(new blockedColumnEvent)
     else {
+      controller.publish(updateGridEvent(stone,player))
       end = controller.checkForWinner(stone)
       if(!end) {
         controller.nextPlayer()
-        controller.notifyObservers("updateGrid")
       }
       else
-        controller.notifyObservers("endGame")
+        controller.publish(new endGameEvent)
     }
   }
 }

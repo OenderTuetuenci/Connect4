@@ -3,16 +3,18 @@ package controller
 import java.util.Scanner
 
 import controller.Commands.MoveCommand
-import model.{Grid, Player}
+import model.Grid
 import utils.{Observable, Observer, UndoManager}
 
-class Controller(var grid:Grid) extends Observable{
+import scala.swing.Publisher
+
+class Controller(var grid:Grid) extends Publisher{
   var players: List[Int] = 1::2::Nil
   var winner:Int = 0
   val undoManager = new UndoManager
 
   def getGridString :String = grid.toString
-  def startGame() : Unit = notifyObservers("startGame")
+  def startGame() : Unit = publish(new startGameEvent)
 
   def move(column: Int): Unit = {
     undoManager.doStep(new MoveCommand(column,players.head,this))

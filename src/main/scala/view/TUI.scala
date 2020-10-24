@@ -1,25 +1,18 @@
 package view
 
-import controller.Controller
-import java.util.Scanner
+import controller.{Controller, blockedColumnEvent, endGameEvent, startGameEvent, updateGridEvent}
+import scala.swing.Reactor
 
-import model.Grid
-import utils.Observer
-
-class TUI(controller: Controller) extends Observer {
-  controller.add(this)
-  override def update(e:String): Unit ={
-    e match {
-      case "updateGrid" =>print(showGrid)
-                          print(askInput)
-      case "startGame"=>print(startGame)
-                        print(showGrid)
-                        print(askInput)
-      case "blockedColumn"=>print(blockedColumn)
-      case "endGame"=>print(endGame)
-      case "askInput"=>print(askInput)
-      case _ =>
-    }
+class TUI(controller: Controller) extends Reactor {
+  listenTo(controller)
+  reactions += {
+    case event:startGameEvent=> printTui(startGame)
+                                printTui(showGrid)
+                                printTui(askInput)
+    case event:updateGridEvent=>printTui(showGrid)
+                                printTui(askInput)
+    case event:blockedColumnEvent=>printTui(blockedColumn)
+    case event:endGameEvent=>printTui(endGame)
   }
 
   def showGrid: String = controller.getGridString+"\n"
@@ -37,5 +30,8 @@ class TUI(controller: Controller) extends Observer {
       case ""=>
       case _ =>controller.move(input.toInt)
     }
+  }
+  def printTui(str: String):Unit={
+    print(str)
   }
 }

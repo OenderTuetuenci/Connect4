@@ -2,7 +2,8 @@ package model
 
 class Grid {
   val grid: Array[Array[Int]] = Array.ofDim[Int](6, 7)
-
+  val rows:Int = 6
+  val columns:Int = 7
   /*
     Puts Stone in Grid like in Real Connect 4
     0 is free space
@@ -144,5 +145,7 @@ class Grid {
 
   def resetValue(row:Int,column:Int):Unit = grid(row)(column) = 0
   override def toString: String = grid.map(_.mkString).mkString("\n")
+  def getRows :Int = rows
+  def getColumns:Int = columns
 
 }
