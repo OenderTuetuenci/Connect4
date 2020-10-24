@@ -1,7 +1,6 @@
 
 import com.google.inject.{Guice, Injector}
-import controller.ControllerInterface
-import controller.controllerComponent.Controller
+import controller.controllerComponent.{Controller, ControllerInterface}
 
 import scala.io.StdIn.readLine
 import model.gridComponent.Grid

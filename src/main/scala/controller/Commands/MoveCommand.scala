@@ -1,7 +1,7 @@
 package controller.Commands
 
-import controller.controllerComponent.Controller
-import controller.{ControllerInterface, blockedColumnEvent, endGameEvent, updateGridEvent}
+import controller.controllerComponent.{Controller, ControllerInterface}
+import controller.{blockedColumnEvent, endGameEvent, updateGridEvent}
 import utils.Command
 
 
@@ -13,10 +13,10 @@ class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends
     if(stone.equals((-1,-1)))
       controller.publish(new blockedColumnEvent)
     else {
-      controller.publish(updateGridEvent(stone,player))
       end = controller.checkForWinner(stone)
       if(!end) {
         controller.nextPlayer()
+        controller.publish(updateGridEvent(stone,player))
       }
       else
         controller.publish(new endGameEvent)
@@ -33,10 +33,10 @@ class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends
     if(stone.equals((-1,-1)))
       controller.publish(new blockedColumnEvent)
     else {
-      controller.publish(updateGridEvent(stone,player))
       end = controller.checkForWinner(stone)
       if(!end) {
         controller.nextPlayer()
+        controller.publish(updateGridEvent(stone,player))
       }
       else
         controller.publish(new endGameEvent)

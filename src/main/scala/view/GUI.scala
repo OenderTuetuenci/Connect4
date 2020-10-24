@@ -1,8 +1,9 @@
 package view
 
-import controller.controllerComponent.Controller
-import controller.{ControllerInterface, blockedColumnEvent, endGameEvent, updateGridEvent}
+import controller.controllerComponent.{Controller, ControllerInterface}
+import controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
 import javax.swing.border.LineBorder
+import model.gridComponent.GridInterface
 
 import scala.swing._
 import scala.swing.event.ButtonClicked
@@ -63,12 +64,32 @@ class GUI(controller:ControllerInterface) extends Frame {
   def blockedColumn():Unit={
     Dialog.showMessage(null,"Column is already Full!!")
   }
+  def saveGame():Unit={
+    Dialog.showMessage(null,"saved Game!!")
+  }
+  def updateAllGrid():Unit={
+    val grid = controller.grid.grid
+    for(r<-0 until 6) {
+      for(c<- 0 until 7){
+        if(grid(r)(c) == 0)
+          cells(r)(c).foreground = java.awt.Color.WHITE
+        else if(grid(r)(c)==1)
+          cells(r)(c).foreground = java.awt.Color.YELLOW
+        else
+          cells(r)(c).foreground = java.awt.Color.RED
+      }
+    }
+    Dialog.showMessage(null,"loaded Game. Player "+controller.players.head+" turn")
+    repaint
+  }
 
   override def closeOperation(): Unit = exit(0)
   reactions +={
-    case e:updateGridEvent=>updateGrid(e.stone,e.player)
-    case e:endGameEvent=>endGame()
-    case e:blockedColumnEvent=>blockedColumn()
+    case e: updateGridEvent=>updateGrid(e.stone,e.player)
+    case e: endGameEvent=>endGame()
+    case e: blockedColumnEvent=>blockedColumn()
+    case e: saveGameEvent=>saveGame()
+    case e: updateAllGridEvent =>updateAllGrid()
   }
   this.visible = true
 

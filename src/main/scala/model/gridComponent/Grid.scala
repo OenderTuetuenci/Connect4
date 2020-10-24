@@ -1,7 +1,5 @@
 package model.gridComponent
 
-import model.GridInterface
-
 class Grid extends GridInterface {
   var grid: Array[Array[Int]] = Array.ofDim[Int](6, 7)
   val rows:Int = 6
@@ -150,4 +148,7 @@ class Grid extends GridInterface {
   def getRows :Int = rows
   def getColumns:Int = columns
 
+  override def set(row: Int, col: Int, value: Int): Unit = {
+    grid(row)(col) = value
+  }
 }

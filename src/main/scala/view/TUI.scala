@@ -1,7 +1,7 @@
 package view
 
-import controller.controllerComponent.Controller
-import controller.{ControllerInterface, blockedColumnEvent, endGameEvent, startGameEvent, updateGridEvent}
+import controller.controllerComponent.{Controller, ControllerInterface}
+import controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 
 import scala.swing.Reactor
 
@@ -15,6 +15,9 @@ class TUI(controller: ControllerInterface) extends Reactor {
                                 printTui(askInput)
     case event:blockedColumnEvent=>printTui(blockedColumn)
     case event:endGameEvent=>printTui(endGame)
+    case event:updateAllGridEvent=>printTui(showGrid)
+                                  printTui(askInput)
+      case event:saveGameEvent=>print(saveGame)
   }
 
   def showGrid: String = controller.getGridString+"\n"
@@ -22,9 +25,12 @@ class TUI(controller: ControllerInterface) extends Reactor {
   def blockedColumn:String = "This Column is already full!!\n"
   def endGame:String = "Player "+controller.players.head+ " won!!\n"
   def askInput:String = "Player "+controller.players.head+" input column (between 0 and 6)\n"
-  def quit:String = "Quitting Game"
+  def quit:String = "Quitting Game\n"
+  def saveGame:String="saved Game\n"
   def handleInput(input:String): Unit ={
     input match {
+      case "s"=>controller.save()
+      case "l"=>controller.load()
       case "u"=>controller.undo()
       case "r"=>controller.redo()
       case "q"=>controller.winner = -1
