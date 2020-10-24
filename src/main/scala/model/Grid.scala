@@ -142,7 +142,7 @@ class Grid {
     (r, c)
   }
 
-
+  def resetValue(row:Int,column:Int):Unit = grid(row)(column) = 0
   override def toString: String = grid.map(_.mkString).mkString("\n")
 
 }

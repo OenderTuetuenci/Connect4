@@ -30,6 +30,8 @@ class TUI(controller: Controller) extends Observer {
   def quit:String = "Quitting Game"
   def handleInput(input:String): Unit ={
     input match {
+      case "u"=>controller.undo()
+      case "r"=>controller.redo()
       case "q"=>controller.winner = -1
                 print(quit)
       case ""=>
