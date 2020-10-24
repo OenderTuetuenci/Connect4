@@ -1,4 +1,5 @@
 
+import com.google.inject.{Guice, Injector}
 import controller.ControllerInterface
 import controller.controllerComponent.Controller
 
@@ -7,7 +8,8 @@ import model.gridComponent.Grid
 import view.{GUI, TUI}
 
 object Connect4 {
-  val controller:ControllerInterface = new Controller(new Grid)
+  val injector: Injector = Guice.createInjector(new Connect4Module)
+  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val tui = new TUI(controller)
   val gui = new GUI(controller)
   controller.startGame()
