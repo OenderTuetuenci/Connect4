@@ -1,14 +1,12 @@
-package controller
-
-import java.util.Scanner
+package controller.controllerComponent
 
 import controller.Commands.MoveCommand
-import model.Grid
-import utils.{Observable, Observer, UndoManager}
+import controller.{ControllerInterface, startGameEvent}
+import model.GridInterface
+import model.gridComponent.Grid
+import utils.UndoManager
 
-import scala.swing.Publisher
-
-class Controller(var grid:Grid) extends Publisher{
+class Controller(var grid:GridInterface) extends ControllerInterface {
   var players: List[Int] = 1::2::Nil
   var winner:Int = 0
   val undoManager = new UndoManager

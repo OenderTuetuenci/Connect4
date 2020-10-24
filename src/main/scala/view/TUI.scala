@@ -1,9 +1,11 @@
 package view
 
-import controller.{Controller, blockedColumnEvent, endGameEvent, startGameEvent, updateGridEvent}
+import controller.controllerComponent.Controller
+import controller.{ControllerInterface, blockedColumnEvent, endGameEvent, startGameEvent, updateGridEvent}
+
 import scala.swing.Reactor
 
-class TUI(controller: Controller) extends Reactor {
+class TUI(controller: ControllerInterface) extends Reactor {
   listenTo(controller)
   reactions += {
     case event:startGameEvent=> printTui(startGame)

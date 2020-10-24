@@ -1,11 +1,13 @@
-import model.Grid
+
+import controller.ControllerInterface
+import controller.controllerComponent.Controller
 
 import scala.io.StdIn.readLine
-import controller.Controller
+import model.gridComponent.Grid
 import view.{GUI, TUI}
 
 object Connect4 {
-  val controller = new Controller(new Grid)
+  val controller:ControllerInterface = new Controller(new Grid)
   val tui = new TUI(controller)
   val gui = new GUI(controller)
   controller.startGame()

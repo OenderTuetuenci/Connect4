@@ -1,10 +1,11 @@
 package controller.Commands
 
-import controller.{Controller, blockedColumnEvent, endGameEvent, updateGridEvent}
+import controller.controllerComponent.Controller
+import controller.{ControllerInterface, blockedColumnEvent, endGameEvent, updateGridEvent}
 import utils.Command
 
 
-class MoveCommand(column:Int,player:Int, controller:Controller) extends Command{
+class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends Command{
   var stone:(Int,Int) = (-1,-1)
   override def doStep(): Unit = {
     stone = controller.grid.put(column, player)

@@ -1,6 +1,6 @@
-import model.Grid
+import controller.controllerComponent.Controller
 import view.TUI
-import controller.Controller
+import model.gridComponent.Grid
 
 val c = new Controller(new Grid)
 val t = new TUI(c)

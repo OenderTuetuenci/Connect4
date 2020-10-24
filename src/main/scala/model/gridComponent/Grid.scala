@@ -1,7 +1,9 @@
-package model
+package model.gridComponent
 
-class Grid {
-  val grid: Array[Array[Int]] = Array.ofDim[Int](6, 7)
+import model.GridInterface
+
+class Grid extends GridInterface {
+  var grid: Array[Array[Int]] = Array.ofDim[Int](6, 7)
   val rows:Int = 6
   val columns:Int = 7
   /*

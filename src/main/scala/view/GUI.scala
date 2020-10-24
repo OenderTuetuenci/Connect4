@@ -1,13 +1,14 @@
 package view
 
-import controller.{Controller, blockedColumnEvent, endGameEvent, updateGridEvent}
+import controller.controllerComponent.Controller
+import controller.{ControllerInterface, blockedColumnEvent, endGameEvent, updateGridEvent}
 import javax.swing.border.LineBorder
 
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import scala.sys.exit
 
-class GUI(controller:Controller) extends Frame {
+class GUI(controller:ControllerInterface) extends Frame {
   listenTo(controller)
   title = "Connect4"
   var cells:Array[Array[Label]] = Array.ofDim[Label](controller.grid.getRows,controller.grid.getColumns)
