@@ -17,7 +17,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
     case event:endGameEvent=>printTui(endGame)
     case event:updateAllGridEvent=>printTui(showGrid)
                                   printTui(askInput)
-      case event:saveGameEvent=>print(saveGame)
+    case event:saveGameEvent=>printTui(saveGame)
   }
 
   def showGrid: String = controller.getGridString+"\n"
