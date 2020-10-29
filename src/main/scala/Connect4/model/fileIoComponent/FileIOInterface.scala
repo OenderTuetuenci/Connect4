@@ -1,6 +1,6 @@
-package model.fileIoComponent
+package Connect4.model.fileIoComponent
 
-import model.gridComponent.GridInterface
+import Connect4.model.gridComponent.GridInterface
 
 trait FileIOInterface {
 

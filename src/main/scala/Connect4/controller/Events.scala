@@ -1,4 +1,4 @@
-package controller
+package Connect4.controller
 import scala.swing.event.Event
 
 class startGameEvent extends Event

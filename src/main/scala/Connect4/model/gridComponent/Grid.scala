@@ -1,4 +1,4 @@
-package model.gridComponent
+package Connect4.model.gridComponent
 
 class Grid extends GridInterface {
   var grid: Array[Array[Int]] = Array.ofDim[Int](6, 7)

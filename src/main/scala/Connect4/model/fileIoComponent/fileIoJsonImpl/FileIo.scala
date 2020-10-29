@@ -1,8 +1,8 @@
-package model.fileIoComponent.fileIoJsonImpl
+package Connect4.model.fileIoComponent.fileIoJsonImpl
 
 import com.google.inject.Guice
-import model.fileIoComponent.FileIOInterface
-import model.gridComponent.{Grid, GridInterface}
+import Connect4.model.fileIoComponent.FileIOInterface
+import Connect4.model.gridComponent.{Grid, GridInterface}
 import play.api.libs.json._
 
 import scala.io.Source

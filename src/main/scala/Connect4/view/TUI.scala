@@ -1,7 +1,7 @@
-package view
+package Connect4.view
 
-import controller.controllerComponent.{Controller, ControllerInterface}
-import controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
+import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
+import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 
 import scala.swing.Reactor
 

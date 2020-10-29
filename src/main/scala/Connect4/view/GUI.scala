@@ -1,9 +1,9 @@
-package view
+package Connect4.view
 
-import controller.controllerComponent.{Controller, ControllerInterface}
-import controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
+import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
+import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
 import javax.swing.border.LineBorder
-import model.gridComponent.GridInterface
+import Connect4.model.gridComponent.GridInterface
 
 import scala.swing._
 import scala.swing.event.ButtonClicked

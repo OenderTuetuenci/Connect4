@@ -1,6 +1,6 @@
-package model.fileIoComponent.fileIoXmlImpl
-import model.fileIoComponent.FileIOInterface
-import model.gridComponent.{Grid, GridInterface}
+package Connect4.model.fileIoComponent.fileIoXmlImpl
+import Connect4.model.fileIoComponent.FileIOInterface
+import Connect4.model.gridComponent.{Grid, GridInterface}
 
 import scala.xml.{Elem, PrettyPrinter}
 

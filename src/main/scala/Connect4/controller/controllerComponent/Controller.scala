@@ -1,11 +1,11 @@
-package controller.controllerComponent
+package Connect4.controller.controllerComponent
 
 import com.google.inject.Inject
-import controller.Commands.MoveCommand
-import controller.{saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
-import model.fileIoComponent.FileIOInterface
-import model.gridComponent.GridInterface
-import utils.UndoManager
+import Connect4.controller.Commands.MoveCommand
+import Connect4.controller.{saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
+import Connect4.model.fileIoComponent.FileIOInterface
+import Connect4.model.gridComponent.GridInterface
+import Connect4.utils.UndoManager
 
 class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) extends ControllerInterface {
   var players: List[Int] = 1::2::Nil

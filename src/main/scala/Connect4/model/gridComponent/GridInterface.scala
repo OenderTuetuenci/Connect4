@@ -1,4 +1,4 @@
-package model.gridComponent
+package Connect4.model.gridComponent
 
 trait GridInterface {
   def set(row: Int, col: Int, value: Int):Unit

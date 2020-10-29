@@ -1,4 +1,4 @@
-package utils
+package Connect4.utils
 
 trait Observer{
   def update(e:String):Unit
