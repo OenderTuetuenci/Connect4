@@ -13,11 +13,10 @@ class FileIo extends FileIOInterface{
     val source: String = Source.fromFile("connect4.json").getLines.mkString
     val json:JsValue = Json.parse(source)
     val player:Int = (json \\"player").head.as[Int]
-    for(index <-0 until 6*7){
-      val row = (json \\ "row")(index).as[Int]
-      val col = (json \\ "col")(index).as[Int]
+    for(index <- 0 to 41){
+      val idx = (json \\ "index")(index).as[Int]
       val value = (json \\ "val")(index).as[Int]
-      grid.set(row,col,value)
+      grid.set(idx,value)
     }
     (grid,player)
   }
@@ -32,13 +31,11 @@ class FileIo extends FileIOInterface{
     Json.obj(
       "grid"->Json.obj(
         "cells"->Json.toJson( for{
-          row <- 0 until 6
-          col <- 0 until 7
+          index <- 0 until 41
         }yield{
           Json.obj(
-            "row"->row,
-            "col"->col,
-            "val"->grid.grid(row)(col)
+            "index"->index,
+            "val"->grid.grid(index)
           )
         }),
         "player"->JsNumber(player)

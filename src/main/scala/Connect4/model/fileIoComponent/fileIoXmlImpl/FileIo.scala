@@ -11,10 +11,9 @@ class FileIo extends FileIOInterface{
     val player = (file \\ "player").text.trim.toInt
     val gridNodes = file \\ "grid"\\"cell"
     for(cell<-gridNodes){
-      val row = (cell\ "row").text.trim.toInt
-      val col = (cell\ "col").text.trim.toInt
+      val index = (cell\ "index").text.trim.toInt
       val value = (cell\ "val").text.trim.toInt
-      grid.grid(row)(col) = value
+      grid.set(index,value)
     }
     (grid,player)
   }
@@ -31,13 +30,11 @@ class FileIo extends FileIOInterface{
   def gridToXml(grid: GridInterface, player: Int):Elem={
     <game>
     <grid>{for{
-      row <- 0 until 6
-      col <-0 until 7
+      index <- 0 to 41
       } yield {
       <cell>
-        <row>{row}</row>
-        <col>{col}</col>
-        <val>{grid.grid(row)(col)}</val>
+        <index>{index}</index>
+        <val>{grid.grid(index)}</val>
       </cell>
     }
       }</grid>

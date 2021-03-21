@@ -6,40 +6,31 @@ import Connect4.utils.Command
 
 
 class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends Command{
-  var stone:(Int,Int) = (-1,-1)
+  var index:Int = -1
   override def doStep(): Unit = {
-    stone = controller.grid.put(column, player)
-    var end: Boolean = false
-    if(stone.equals((-1,-1)))
-      controller.publish(new blockedColumnEvent)
-    else {
-      end = controller.checkForWinner(stone)
-      if(!end) {
-        controller.nextPlayer()
-        controller.publish(updateGridEvent(stone,player))
-      }
-      else
-        controller.publish(new endGameEvent)
+    var temp = controller.grid.put(column, player)
+    temp match {
+      case Some(value) => index = value
+      case None => controller.publish(new blockedColumnEvent)
     }
+    update()
   }
   override def undoStep(): Unit = {
-    controller.grid.resetValue(stone._1,stone._2)
+    controller.grid.set(index,0)
     controller.resetPlayer(player)
-    controller.publish(updateGridEvent(stone,0))
+    controller.publish(updateGridEvent(index,0))
   }
   override def redoStep(): Unit = {
-    stone = controller.grid.put(column, player)
+    controller.grid.set(index,player)
+    update()
+  }
+  private def update(): Unit ={
     var end: Boolean = false
-    if(stone.equals((-1,-1)))
-      controller.publish(new blockedColumnEvent)
-    else {
-      end = controller.checkForWinner(stone)
-      if(!end) {
-        controller.nextPlayer()
-        controller.publish(updateGridEvent(stone,player))
-      }
-      else
-        controller.publish(new endGameEvent)
-    }
+    end = controller.checkForWinner()
+    if(!end){
+      controller.nextPlayer()
+      controller.publish(updateGridEvent(index,player))
+    }else
+      controller.publish(new endGameEvent)
   }
 }

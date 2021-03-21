@@ -1,19 +1,14 @@
 package Connect4.model.gridComponent
 
 trait GridInterface {
-  def set(row: Int, col: Int, value: Int):Unit
-
-  var grid: Array[Array[Int]]
+  var grid: Vector[Int]
   val rows: Int
   val columns: Int
 
-  def put(column: Int, player: Int): (Int, Int)
+  def put(column: Int, player: Int): Option[Int]
 
-  def checkConnect4(stone: (Int, Int), player: Int): Boolean
+  def checkConnect4(player: Int): Boolean
 
-  def resetValue(row: Int, column: Int): Unit
+  def set(i: Int, value: Int): Unit
 
-  def getRows: Int
-
-  def getColumns: Int
 }

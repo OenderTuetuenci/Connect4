@@ -21,7 +21,7 @@ trait ControllerInterface extends Publisher {
 
   def redo(): Unit
 
-  def checkForWinner(stone: (Int, Int)): Boolean
+  def checkForWinner(): Boolean
 
   def nextPlayer(): Unit
 

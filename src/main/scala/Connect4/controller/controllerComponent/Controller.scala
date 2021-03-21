@@ -34,8 +34,8 @@ class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) e
     undoManager.redoStep()
   }
 
-  def checkForWinner(stone:(Int,Int)): Boolean ={
-    grid.checkConnect4(stone,players.head)
+  def checkForWinner(): Boolean ={
+    grid.checkConnect4(players.head)
   }
   def nextPlayer():Unit = players = players.tail ::: List(players.head)
   def resetPlayer(player:Int):Unit={
