@@ -1,11 +1,9 @@
 package Connect4.model.gridComponent
+
 import com.google.inject.Inject
 
-class Grid() extends GridInterface{
-  var grid:Vector[Int] = Vector.fill(6*7)(0)
-  val rows: Int = 6
-  val columns:Int = 7
-  val limit:Vector[Int] = (35 to 41).toVector
+case class Grid @Inject() (grid:Vector[Int] = Vector.fill(6*7)(0), rows: Int = 6, columns:Int = 7,
+                limit:Vector[Int] = (35 to 41).toVector) extends GridInterface{
 
   def up(i:Int,m:Int):Int = i-m
   def down(i:Int, m:Int):Int = i+m
@@ -15,20 +13,17 @@ class Grid() extends GridInterface{
   def diagonalLeftMove(op:(Int,Int)=>Int) (i:Int) :Int = op(i,6)
   def diagonalRightMove(op:(Int,Int)=>Int) (i:Int) :Int = op(i,8)
 
-  override def set(i:Int, value: Int): Unit = {
-    grid = grid.updated(i,value)
-  }
+  override def set(i:Int, value: Int): GridInterface = this.copy(grid = grid.updated(i,value))
 
-  def put(column: Int, player: Int): Option[Int] = {
+  override def put(column: Int, player: Int): (Option[Int],GridInterface) = {
     if (grid(column) > 0) {
-      None
+      (None,this)
     } else {
       var i = column
       while(i < limit(column) && grid(verticalMove(down)(i)) == 0){
         i = verticalMove(down)(i)
       }
-      grid = grid.updated(i,player)
-      Some(i)
+      (Some(i),this.copy(grid=grid.updated(i,player)))
     }
   }
 
@@ -42,10 +37,8 @@ class Grid() extends GridInterface{
     val verticalCheck = check((0 to 6).toVector, (35 to 41).toVector, vertical, player)
     val diagonalRightCheck = check(Vector(35,28,21,14,7,0,1,2,3,4,5,6),Vector(35,36,37,38,39,40,41,34,27,20,13,6), diagonalRight, player)
     val diagonalLeftCheck = check(Vector(41,34,27,20,13,6,5,4,3,2,1,0),Vector(41,40,39,38,37,36,35,28,21,14,7,0), diagonalLeft, player)
-    if (diagonalLeftCheck || diagonalRightCheck || verticalCheck || horizontalCheck)
-      true
-    else
-      false
+
+    diagonalLeftCheck || diagonalRightCheck || verticalCheck || horizontalCheck
   }
   private def check(startpoints:Vector[Int],endpoints:Vector[Int],move:Int => Int ,player:Int):Boolean = {
     var counter = 0
@@ -80,5 +73,4 @@ class Grid() extends GridInterface{
     }
     temp
   }
-
 }

@@ -5,23 +5,24 @@ import Connect4.controller.{blockedColumnEvent, endGameEvent, updateGridEvent}
 import Connect4.utils.Command
 
 
-class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends Command{
+class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extends Command{
   var index:Int = -1
   override def doStep(): Unit = {
-    var temp = controller.grid.put(column, player)
-    temp match {
-      case Some(value) => index = value
+    val temp = controller.grid.put(column,player)
+    temp._1 match {
+      case Some(value) => { controller.grid = temp._2
+                            index = value
+                            update()}
       case None => controller.publish(new blockedColumnEvent)
     }
-    update()
   }
   override def undoStep(): Unit = {
-    controller.grid.set(index,0)
+    controller.grid = controller.grid.set(index,0)
     controller.resetPlayer(player)
     controller.publish(updateGridEvent(index,0))
   }
   override def redoStep(): Unit = {
-    controller.grid.set(index,player)
+    controller.grid = controller.grid.set(index,player)
     update()
   }
   private def update(): Unit ={
@@ -30,7 +31,9 @@ class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends
     if(!end){
       controller.nextPlayer()
       controller.publish(updateGridEvent(index,player))
-    }else
+    }else {
+      controller.publish(updateGridEvent(index,player))
       controller.publish(new endGameEvent)
+    }
   }
 }

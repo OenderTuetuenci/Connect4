@@ -8,7 +8,7 @@ import net.codingwell.scalaguice.ScalaModule
 
 class Connect4Module extends AbstractModule with ScalaModule{
   override def configure(): Unit = {
-    bind[GridInterface].to[Grid]
+    bind[GridInterface].toInstance(Grid())
     bind[ControllerInterface].to[controller.controllerComponent.Controller]
     //bind[FileIOInterface].to[Connect4.model.fileIoComponent.fileIoJsonImpl.FileIo]
     bind[FileIOInterface].to[model.fileIoComponent.fileIoXmlImpl.FileIo]
