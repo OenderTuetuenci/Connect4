@@ -2,7 +2,7 @@ package Connect4.model.gridComponent
 
 import com.google.inject.Inject
 
-case class Grid @Inject() (grid:Vector[Int] = Vector.fill(6*7)(0), rows: Int = 6, columns:Int = 7,
+case class Grid (grid:Vector[Int] = Vector.fill(6*7)(0), rows: Int = 6, columns:Int = 7,
                 limit:Vector[Int] = (35 to 41).toVector) extends GridInterface{
 
   def up(i:Int,m:Int):Int = i-m
