@@ -12,7 +12,6 @@ class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) e
   var winner:Int = 0
   val undoManager = new UndoManager
 
-  def getGridString :String = grid.toString
   def startGame() : Unit = publish(new startGameEvent)
   def save():Unit = {
     fileIo.save(grid,players.head)
@@ -21,24 +20,16 @@ class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) e
   def load():Unit ={
     val stats = fileIo.load
     grid=stats._1
-    resetPlayer(stats._2)
+    setPlayer(stats._2)
     publish(new updateAllGridEvent)
   }
-  def move(column: Int): Unit = {
-    undoManager.doStep(new MoveCommand(column,players.head,this))
-  }
-  def undo():Unit={
-    undoManager.undoStep()
-  }
-  def redo():Unit={
-    undoManager.redoStep()
-  }
+  def move(column: Int): Unit = undoManager.doStep(new MoveCommand(column,players.head,this))
+  def undo():Unit= undoManager.undoStep()
+  def redo():Unit= undoManager.redoStep()
 
-  def checkForWinner(): Boolean ={
-    grid.checkConnect4(players.head)
-  }
+  def checkForWinner(): Boolean = grid.checkConnect4(players.head)
   def nextPlayer():Unit = players = players.tail ::: List(players.head)
-  def resetPlayer(player:Int):Unit={
+  def setPlayer(player:Int):Unit={
     if(player == 1)
       players = 1::2::Nil
     else

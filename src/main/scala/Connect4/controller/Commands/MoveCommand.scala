@@ -18,7 +18,7 @@ class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extend
   }
   override def undoStep(): Unit = {
     controller.grid = controller.grid.set(index,0)
-    controller.resetPlayer(player)
+    controller.setPlayer(player)
     controller.publish(updateGridEvent(index,0))
   }
   override def redoStep(): Unit = {

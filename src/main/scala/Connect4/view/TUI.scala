@@ -20,7 +20,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
     case event:saveGameEvent=>printTui(saveGame)
   }
 
-  def showGrid: String = controller.getGridString+"\n"
+  def showGrid: String = controller.grid.toString+"\n"
   def startGame:String = "Welcome to Connect4!\n"
   def blockedColumn:String = "This Column is already full!!\n"
   def endGame:String = "Player "+controller.players.head+ " won!!\n"
