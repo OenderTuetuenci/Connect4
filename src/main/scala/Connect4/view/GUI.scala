@@ -94,6 +94,5 @@ class GUI(controller: ControllerInterface) extends Frame {
     case e: updateAllGridEvent => updateAllGrid()
   }
   this.visible = true
-
-
+  
 }

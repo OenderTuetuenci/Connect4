@@ -31,34 +31,34 @@ case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, column
     val diagonalLeft = diagonalLeftMove(down) _
     val diagonalRight = diagonalRightMove(down) _
 
-    val horizontalCheck = checkHelperOuter((0 to 35 by 7).toVector, (6 to 41 by 7).toVector, horizontal, player,0,0)
-    val verticalCheck = checkHelperOuter((0 to 6).toVector, (35 to 41).toVector, vertical, player,0,0)
-    val diagonalRightCheck = checkHelperOuter(Vector(35, 28, 21, 14, 7, 0, 1, 2, 3, 4, 5, 6), Vector(35, 36, 37, 38, 39, 40, 41, 34, 27, 20, 13, 6), diagonalRight, player,0,0)
-    val diagonalLeftCheck = checkHelperOuter(Vector(41, 34, 27, 20, 13, 6, 5, 4, 3, 2, 1, 0), Vector(41, 40, 39, 38, 37, 36, 35, 28, 21, 14, 7, 0), diagonalLeft, player,0,0)
+    val horizontalCheck = checkHelperOuter((0 to 35 by 7).toVector, (6 to 41 by 7).toVector, horizontal, player,0,0,false)
+    val verticalCheck = checkHelperOuter((0 to 6).toVector, (35 to 41).toVector, vertical, player,0,0,false)
+    val diagonalRightCheck = checkHelperOuter(Vector(35, 28, 21, 14, 7, 0, 1, 2, 3, 4, 5, 6), Vector(35, 36, 37, 38, 39, 40, 41, 34, 27, 20, 13, 6), diagonalRight, player,0,0,false)
+    val diagonalLeftCheck = checkHelperOuter(Vector(41, 34, 27, 20, 13, 6, 5, 4, 3, 2, 1, 0), Vector(41, 40, 39, 38, 37, 36, 35, 28, 21, 14, 7, 0), diagonalLeft, player,0,0,false)
     verticalCheck  || horizontalCheck || diagonalRightCheck || diagonalLeftCheck
   }
 
-
-
-  private def checkHelperOuter(startpoints: Vector[Int], endpoints: Vector[Int], move: Int => Int, player: Int, index:Int,result: Int):Boolean ={
-    if(index < startpoints.length && result < 4){
+  private def checkHelperOuter(startpoints: Vector[Int], endpoints: Vector[Int], move: Int => Int, player: Int, index:Int,result: Int,end:Boolean):Boolean ={
+    if(!end && index < startpoints.length) {
       val result = checkHelperInner(startpoints(index), endpoints(index),move,player,0,false,startpoints(index))
-      return checkHelperOuter(startpoints,endpoints,move,player,index+1,result)
+      checkHelperOuter(startpoints,endpoints,move,player,index+1,result,result >= 4)
+    } else {
+      end
     }
-    result >= 4
   }
-
   private def checkHelperInner(index:Int, endpoint: Int, move: Int =>Int, player: Int, counter: Int, first:Boolean, old:Int):Int = {
     if (index <= endpoint && counter < 4) {
-      var test = 0
-      if (grid(index) == player && !first) {
-        test=checkHelperInner(move(index), endpoint, move, player, counter+1, first = true,old = grid(index))
-      } else if (old == player && grid(index) == player) {
-        test=checkHelperInner(move(index),endpoint,move,player,counter+1,first,old = grid(index))
-      } else if (grid(index) != player && counter < 4) {
-        test=checkHelperInner(move(index),endpoint,move,player,counter = 0,first = false,old = grid(index))
+      if (old == player && grid(index) == player) {
+        checkHelperInner(move(index), endpoint, move, player, counter+1, first, old = grid(index))
+      } else if (grid(index) == player) {
+        if (!first) {
+          checkHelperInner(move(index), endpoint, move, player, counter+1, first = true, old = grid(index))
+        } else {
+          checkHelperInner(move(index), endpoint, move, player, counter, first = false, old = grid(index))
+        }
+      } else {
+        checkHelperInner(move(index), endpoint, move, player, counter = 0, first = false, old = grid(index))
       }
-      test
     } else
       counter
   }
