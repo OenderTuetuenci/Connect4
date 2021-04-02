@@ -7,6 +7,8 @@ import Connect4.model.fileIoComponent.FileIOInterface
 import Connect4.model.gridComponent.GridInterface
 import Connect4.utils.UndoManager
 
+import scala.util.{Failure, Success, Try}
+
 class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) extends ControllerInterface {
   var players: List[Int] = 1::2::Nil
   var winner:Int = 0
@@ -23,7 +25,14 @@ class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) e
     setPlayer(stats._2)
     publish(new updateAllGridEvent)
   }
-  def move(column: Int): Unit = undoManager.doStep(new MoveCommand(column,players.head,this))
+  def move(column: String): Try[Unit] = {
+    if (column.toIntOption.isDefined){
+      Try(undoManager.doStep(new MoveCommand(column.toInt,players.head,this)))
+    } else {
+      Failure(new Exception("Input is not a valid Input (s, l, u, r, q, 0 - 6)\n"))
+    }
+  }
+
   def undo():Unit= undoManager.undoStep()
   def redo():Unit= undoManager.redoStep()
 

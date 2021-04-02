@@ -4,6 +4,7 @@ import Connect4.model.gridComponent.GridInterface
 import Connect4.utils.UndoManager
 
 import scala.swing.Publisher
+import scala.util.Try
 
 trait ControllerInterface extends Publisher {
   val undoManager: UndoManager
@@ -14,7 +15,7 @@ trait ControllerInterface extends Publisher {
 
   def startGame(): Unit
 
-  def move(column: Int): Unit
+  def move(column: String): Try[Unit]
 
   def undo(): Unit
 

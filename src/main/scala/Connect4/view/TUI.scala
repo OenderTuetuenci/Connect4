@@ -4,6 +4,7 @@ import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
 import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 
 import scala.swing.Reactor
+import scala.util.{Failure, Success, Try}
 
 class TUI(controller: ControllerInterface) extends Reactor {
   listenTo(controller)
@@ -35,8 +36,10 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case "r"=>controller.redo()
       case "q"=>controller.winner = -1
                 print(quit)
-      case ""=>
-      case _ =>controller.move(input.toInt)
+      case _ => controller.move(input) match {
+        case Success(_)=>
+        case Failure(exception)=>printTui(exception.getMessage)
+      }
     }
   }
   def printTui(str: String):Unit={

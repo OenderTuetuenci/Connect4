@@ -2,12 +2,14 @@ package Connect4.view
 
 import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
 import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
+
 import javax.swing.border.LineBorder
 import Connect4.model.gridComponent.GridInterface
 
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import scala.sys.exit
+import scala.util.{Success, Failure, Try}
 
 class GUI(controller: ControllerInterface) extends Frame {
   listenTo(controller)
@@ -27,7 +29,10 @@ class GUI(controller: ControllerInterface) extends Frame {
       listenTo(button)
     }
     reactions += {
-      case ButtonClicked(b) => controller.move(b.text.toInt)
+      case ButtonClicked(b) => controller.move(b.text) match {
+        case Success(_)=>
+        case Failure(_)=>Dialog.showMessage(null,"Input is not valid")
+      }
     }
   }
 

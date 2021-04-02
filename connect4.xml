@@ -142,32 +142,32 @@
         </cell>
         <cell>
             <index>35</index>
-            <val>1</val>
+            <val>0</val>
         </cell>
         <cell>
             <index>36</index>
-            <val>2</val>
+            <val>0</val>
         </cell>
         <cell>
             <index>37</index>
-            <val>1</val>
+            <val>0</val>
         </cell>
         <cell>
             <index>38</index>
-            <val>2</val>
+            <val>0</val>
         </cell>
         <cell>
             <index>39</index>
-            <val>1</val>
+            <val>0</val>
         </cell>
         <cell>
             <index>40</index>
-            <val>2</val>
+            <val>0</val>
         </cell>
         <cell>
             <index>41</index>
-            <val>1</val>
+            <val>0</val>
         </cell>
     </grid>
-    <player>2</player>
+    <player>1</player>
 </game>

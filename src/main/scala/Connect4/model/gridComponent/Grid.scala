@@ -13,15 +13,15 @@ case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, column
 
   override def set(i: Int, value: Int): GridInterface = this.copy(grid = grid.updated(i, value))
 
-  override def put(column: Int, player: Int): (Option[Int], GridInterface) = {
-    if (grid(column) > 0) {
-      (None, this)
+  override def put(column: Int, player: Int): Option[(Int,GridInterface)] = {
+    if (limit(column) < 0 && grid(column) > 0) {
+      None
     } else {
       var i = column
       while (i < limit(column) && grid(verticalMove(down)(i)) == 0) {
         i = verticalMove(down)(i)
       }
-      (Some(i), this.copy(grid = grid.updated(i, player)))
+      Some(i,this.copy(grid = grid.updated(i, player)))
     }
   }
 

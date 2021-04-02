@@ -8,10 +8,9 @@ import Connect4.utils.Command
 class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extends Command{
   var index:Int = -1
   override def doStep(): Unit = {
-    val temp = controller.grid.put(column,player)
-    temp._1 match {
-      case Some(value) => { controller.grid = temp._2
-                            index = value
+    controller.grid.put(column,player) match {
+      case Some(value) => { controller.grid = value._2
+                            index = value._1
                             update()}
       case None => controller.publish(new blockedColumnEvent)
     }
@@ -31,7 +30,7 @@ class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extend
     if(!end){
       controller.nextPlayer()
       controller.publish(updateGridEvent(index,player))
-    }else {
+    } else {
       controller.publish(updateGridEvent(index,player))
       controller.publish(new endGameEvent)
     }
