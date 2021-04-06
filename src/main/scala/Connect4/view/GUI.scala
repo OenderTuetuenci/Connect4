@@ -16,37 +16,49 @@ class GUI(controller: ControllerInterface) extends Frame {
   title = "Connect4"
   var cells: Vector[Label] = Vector()
   var buttons: Vector[Button] = Vector()
-  contents = new GridPanel(2, 0) {
-    contents += buttonPanel
-    contents += gridPanel
-  }
-
-  def buttonPanel: FlowPanel = new FlowPanel {
-    for {i <- 0 to 6} {
-      val button = new Button(i.toString)
-      buttons = buttons :+ button
-      contents += button
-      listenTo(button)
+  contents = new GridBagPanel() {
+    def constraints(x: Int, y: Int,
+                    gridwidth: Int = 1, gridheight: Int = 1,
+                    weightx: Double = 0.0, weighty: Double = 0.0,
+                    fill: GridBagPanel.Fill.Value = GridBagPanel.Fill.None)
+    : Constraints = {
+      val c = new Constraints
+      c.gridx = x
+      c.gridy = y
+      c.gridwidth = gridwidth
+      c.gridheight = gridheight
+      c.weightx = weightx
+      c.weighty = weighty
+      c.fill = fill
+      c
     }
-    reactions += {
-      case ButtonClicked(b) => controller.move(b.text) match {
-        case Success(_)=>
-        case Failure(_)=>Dialog.showMessage(null,"Input is not valid")
+    add(new FlowPanel {
+      for {i <- 0 to 6} {
+        val button = new Button(i.toString)
+        buttons = buttons :+ button
+        contents += button
+        listenTo(button)
       }
-    }
-  }
-
-  def gridPanel: GridPanel = new GridPanel(6, 7) {
-    border = new LineBorder(java.awt.Color.BLACK, 2)
-    for {index <- 0 to 41} {
-      val label = new Label("IIII") {
-        border = new LineBorder(java.awt.Color.BLACK, 1)
-        foreground = java.awt.Color.WHITE
-        opaque = false
+      reactions += {
+        case ButtonClicked(b) => controller.move(b.text) match {
+          case Success(_)=>
+          case Failure(_)=>Dialog.showMessage(null,"Input is not valid")
+        }
       }
-      cells = cells :+ label
-      contents += label
-    }
+    }, constraints(1, 1))
+
+    add(new GridPanel(6, 7) {
+      border = new LineBorder(java.awt.Color.BLACK, 2)
+      for {index <- 0 to 41} {
+        val label = new Label("IIII") {
+          border = new LineBorder(java.awt.Color.BLACK, 1)
+          foreground = java.awt.Color.WHITE
+          opaque = false
+        }
+        cells = cells :+ label
+        contents += label
+      }
+    }, constraints(1, 2, gridheight=15, weighty = 1.0, fill=GridBagPanel.Fill.Both))
   }
 
   def updateGrid(index: Int, player: Int): Unit = {
