@@ -1,5 +1,7 @@
 package Connect4.model.gridComponent
 
+import scala.annotation.tailrec
+
 case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, columns: Int = 7,
                 limit: Vector[Int] = (35 to 41).toVector) extends GridInterface {
 
@@ -38,7 +40,8 @@ case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, column
     verticalCheck  || horizontalCheck || diagonalRightCheck || diagonalLeftCheck
   }
 
-  private def checkHelperOuter(startpoints: Vector[Int], endpoints: Vector[Int], move: Int => Int, player: Int, index:Int,result: Int,end:Boolean):Boolean ={
+  @tailrec
+  private def checkHelperOuter(startpoints: Vector[Int], endpoints: Vector[Int], move: Int => Int, player: Int, index:Int, result: Int, end:Boolean):Boolean ={
     if(!end && index < startpoints.length) {
       val result = checkHelperInner(startpoints(index), endpoints(index),move,player,0,false,startpoints(index))
       checkHelperOuter(startpoints,endpoints,move,player,index+1,result,result >= 4)
@@ -46,6 +49,7 @@ case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, column
       end
     }
   }
+  @tailrec
   private def checkHelperInner(index:Int, endpoint: Int, move: Int =>Int, player: Int, counter: Int, first:Boolean, old:Int):Int = {
     if (index <= endpoint && counter < 4) {
       if (old == player && grid(index) == player) {

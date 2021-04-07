@@ -3,7 +3,7 @@ package Connect4.view
 import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
 import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 
-import scala.swing.Reactor
+import scala.swing.{Reactor, implicitConversions}
 import scala.util.{Failure, Success, Try}
 
 class TUI(controller: ControllerInterface) extends Reactor {
@@ -36,7 +36,9 @@ class TUI(controller: ControllerInterface) extends Reactor {
       case "r"=>controller.redo()
       case "q"=>controller.winner = -1
                 print(quit)
-      case _ => controller.move(input) match {
+      case _ => for {
+        i <- input.trim
+      }yield controller.move(i.toString) match {
         case Success(_)=>
         case Failure(exception)=>printTui(exception.getMessage)
       }
