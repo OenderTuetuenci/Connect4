@@ -1,10 +1,9 @@
 package Connect4.view
 
-import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
-import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
+import Connect4.controller.{ControllerInterface, blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 
-import scala.swing.{Reactor, implicitConversions}
-import scala.util.{Failure, Success, Try}
+import scala.swing.Reactor
+import scala.util.{Failure, Success}
 
 class TUI(controller: ControllerInterface) extends Reactor {
   listenTo(controller)

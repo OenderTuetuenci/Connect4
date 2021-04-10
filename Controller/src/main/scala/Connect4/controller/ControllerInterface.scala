@@ -1,7 +1,7 @@
-package Connect4.controller.controllerComponent
+package Connect4.controller
 
+import Connect4.controller.utils.UndoManager
 import Connect4.model.gridComponent.GridInterface
-import Connect4.utils.UndoManager
 
 import scala.swing.Publisher
 import scala.util.Try

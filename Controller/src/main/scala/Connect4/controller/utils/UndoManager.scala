@@ -1,4 +1,4 @@
-package Connect4.utils
+package Connect4.controller.utils
 
 class UndoManager {
   private var undoStack: List[Command]= Nil

@@ -1,6 +1,6 @@
 package Connect4
 
-import controller.controllerComponent._
+import Connect4.controller.ControllerInterface
 import model.fileIoComponent.FileIOInterface
 import model.gridComponent.{Grid, GridInterface}
 import com.google.inject.AbstractModule

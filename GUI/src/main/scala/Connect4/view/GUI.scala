@@ -1,15 +1,12 @@
 package Connect4.view
 
-import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
-import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
+import Connect4.controller.{ControllerInterface, blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
 
 import javax.swing.border.LineBorder
-import Connect4.model.gridComponent.GridInterface
-
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import scala.sys.exit
-import scala.util.{Success, Failure, Try}
+import scala.util.{Failure, Success}
 
 class GUI(controller: ControllerInterface) extends Frame {
   listenTo(controller)

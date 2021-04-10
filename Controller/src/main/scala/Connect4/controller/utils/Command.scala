@@ -1,4 +1,4 @@
-package Connect4.utils
+package Connect4.controller.utils
 
 trait Command {
   def doStep():Unit

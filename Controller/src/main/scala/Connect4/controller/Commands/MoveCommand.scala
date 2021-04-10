@@ -1,8 +1,7 @@
 package Connect4.controller.Commands
 
-import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
-import Connect4.controller.{blockedColumnEvent, endGameEvent, updateGridEvent}
-import Connect4.utils.Command
+import Connect4.controller.utils.Command
+import Connect4.controller.{ControllerInterface, blockedColumnEvent, endGameEvent, updateGridEvent}
 
 
 class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extends Command{

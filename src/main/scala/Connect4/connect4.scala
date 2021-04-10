@@ -1,10 +1,8 @@
 package Connect4
 
+import Connect4.controller.ControllerInterface
+import Connect4.view.{GUI, TUI}
 import com.google.inject.{Guice, Injector}
-import controller.controllerComponent.ControllerInterface
-import model.gridComponent.Grid
-import view.GUI
-import view.TUI
 
 object connect4 {
   val injector: Injector = Guice.createInjector(new Connect4Module)
