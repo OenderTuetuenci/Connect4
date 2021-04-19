@@ -10,7 +10,6 @@ trait ControllerInterface extends Publisher {
   val undoManager: UndoManager
   var players: List[Int]
   var winner: Int
-  var grid: GridInterface
 
 
   def startGame(): Unit

@@ -4,14 +4,15 @@ import Connect4.controller.{ControllerInterface, blockedColumnEvent, endGameEven
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.client.RequestBuilding.Get
+import akka.http.scaladsl.client.RequestBuilding.{Get, Post}
 import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import org.joda.time.DurationFieldType.millis
-import play.api.libs.json.Json
+import play.api.libs.json.{JsObject, Json}
 
+import java.util.concurrent.TimeUnit
 import javax.swing.border.LineBorder
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
 import scala.swing._
@@ -100,6 +101,17 @@ class GUI(controller: ControllerInterface) extends Frame {
       if (grid(index) == 0) {
         cells(index).foreground = java.awt.Color.WHITE
       } else if (grid(index) == 1) {
+        cells(index).foreground = java.awt.Color.YELLOW
+      } else {
+        cells(index).foreground = java.awt.Color.RED
+      }
+    }
+    val json = Json.parse(tmp)
+    for(index <- 0 to 41){
+      val value = (json \\ "val")(index).as[Int]
+      if (value == 0) {
+        cells(index).foreground = java.awt.Color.WHITE
+      } else if (value == 1) {
         cells(index).foreground = java.awt.Color.YELLOW
       } else {
         cells(index).foreground = java.awt.Color.RED

@@ -67,10 +67,10 @@ object ModelManager extends PlayJsonSupport{
           val i2 = i.getOrElse("")
           val value2 = value.getOrElse("")
           if(i2 == "" || value2 == "") {
-            complete(StatusCodes.BadRequest)
+            complete(69)
           } else {
             grid = grid.set(i2.toInt,value2.toInt)
-            complete(StatusCodes.OK)
+            complete(420)
           }
         }
       },
@@ -78,10 +78,10 @@ object ModelManager extends PlayJsonSupport{
         parameters("player".optional) { (player) =>
           val player2 = player.getOrElse("")
           if (player2 == "") {
-            complete(StatusCodes.BadRequest)
+            complete(69)
           } else {
             fileIo.save(grid,player2.toInt)
-            complete(StatusCodes.OK)
+            complete(420)
           }
         }
       },
@@ -93,9 +93,8 @@ object ModelManager extends PlayJsonSupport{
       path("model" / "grid" / "checkConnect") {
         parameters("player".optional) { (player) =>
           val player2 = player.getOrElse("")
-          println(grid.checkConnect4(player2.toInt))
           if (player2 == "") {
-            complete(StatusCodes.BadRequest)
+            complete(69)
           } else {
             complete(grid.checkConnect4(player2.toInt))
           }
