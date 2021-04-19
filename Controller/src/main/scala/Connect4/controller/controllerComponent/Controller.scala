@@ -6,23 +6,42 @@ import Connect4.controller.utils.UndoManager
 import Connect4.controller.{ControllerInterface, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 import Connect4.model.fileIoComponent.FileIOInterface
 import Connect4.model.gridComponent.GridInterface
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.client.RequestBuilding.{Get, Post}
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
+import play.api.libs.json.Json
 
+import java.util.concurrent.TimeUnit
+import scala.concurrent.duration.{Duration, DurationInt}
+import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
 import scala.util.{Failure, Success, Try}
 
-class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) extends ControllerInterface {
+class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) extends ControllerInterface with PlayJsonSupport {
   var players: List[Int] = 1::2::Nil
   var winner:Int = 0
   val undoManager = new UndoManager
 
   def startGame() : Unit = publish(new startGameEvent)
   def save():Unit = {
-    fileIo.save(grid,players.head)
+    val status = {
+      val response = Http().singleRequest(Post("http://localhost:8080/model/fileIo/save?player="+players.head))
+      val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
+      Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
+    }
     publish(new saveGameEvent)
   }
   def load():Unit ={
-    val stats = fileIo.load
-    grid=stats._1
-    setPlayer(stats._2)
+    val player = {
+      val response = Http().singleRequest(Post("http://localhost:8080/model/fileIo/load"))
+      val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
+      Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
+    }
+    setPlayer(player)
     publish(new updateAllGridEvent)
   }
   def move(column: String): Try[Unit] = {
@@ -36,7 +55,11 @@ class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) e
   def undo():Unit= undoManager.undoStep()
   def redo():Unit= undoManager.redoStep()
 
-  def checkForWinner(): Boolean = grid.checkConnect4(players.head)
+  def checkForWinner(): Boolean = {
+    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/checkConnect?player="+players.head))
+    val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Boolean])
+    Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
+  }
   def nextPlayer():Unit = players = players.tail ::: List(players.head)
   def setPlayer(player:Int):Unit={
     if(player == 1)

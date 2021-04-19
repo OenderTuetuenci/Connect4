@@ -9,14 +9,14 @@ import scala.io.Source
 
 class FileIo extends FileIOInterface{
   override def load: (GridInterface,Int) = {
-    val grid:GridInterface = new Grid()
+    var grid:GridInterface = new Grid()
     val source: String = Source.fromFile("connect4.json").getLines.mkString
     val json:JsValue = Json.parse(source)
     val player:Int = (json \\"player").head.as[Int]
-    for(index <- 0 to 41){
+    for(index <- 0 until 42){
       val idx = (json \\ "index")(index).as[Int]
       val value = (json \\ "val")(index).as[Int]
-      grid.set(idx,value)
+      grid = grid.set(idx,value)
     }
     (grid,player)
   }

@@ -1,8 +1,19 @@
 package Connect4.view
 
 import Connect4.controller.{ControllerInterface, blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.client.RequestBuilding.Get
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import org.joda.time.DurationFieldType.millis
+import play.api.libs.json.Json
 
 import javax.swing.border.LineBorder
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import scala.sys.exit
