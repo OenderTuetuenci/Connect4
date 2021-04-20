@@ -2,12 +2,23 @@ package Connect4.view
 
 import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
 import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.client.RequestBuilding.Post
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 
+import java.util.concurrent.TimeUnit
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import scala.swing.{Reactor, implicitConversions}
 import scala.util.{Failure, Success, Try}
 
-class TUI(controller: ControllerInterface) extends Reactor {
+class TUI(controller: ControllerInterface) extends Reactor with PlayJsonSupport{
   listenTo(controller)
+  implicit val system = ActorSystem(Behaviors.empty, "my-system")
+  implicit val executionContext = system.executionContext
   reactions += {
     case event:startGameEvent=> printTui(startGame)
                                 printTui(showGrid)
@@ -21,7 +32,7 @@ class TUI(controller: ControllerInterface) extends Reactor {
     case event:saveGameEvent=>printTui(saveGame)
   }
 
-  def showGrid: String = controller.grid.toString+"\n"
+  def showGrid: String = controller.requestHandler.showGridTui() + "\n"
   def startGame:String = "Welcome to Connect4!\n"
   def blockedColumn:String = "This Column is already full!!\n"
   def endGame:String = "Player "+controller.players.head+ " won!!\n"

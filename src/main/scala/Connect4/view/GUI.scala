@@ -3,15 +3,27 @@ package Connect4.view
 import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
 import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
 import Connect4.gridComponent.GridInterface
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.client.RequestBuilding.Get
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
+import play.api.libs.json.{JsObject, Json}
 
+import java.util.concurrent.TimeUnit
 import javax.swing.border.LineBorder
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import scala.sys.exit
 import scala.util.{Failure, Success, Try}
 
-class GUI(controller: ControllerInterface) extends Frame {
+class GUI(controller: ControllerInterface) extends Frame with PlayJsonSupport {
   listenTo(controller)
+  implicit val system = ActorSystem(Behaviors.empty, "my-system")
+  implicit val executionContext = system.executionContext
   title = "Connect4"
   var cells: Vector[Label] = Vector()
   var buttons: Vector[Button] = Vector()
@@ -86,11 +98,12 @@ class GUI(controller: ControllerInterface) extends Frame {
   }
 
   def updateAllGrid(): Unit = {
-    val grid = controller.grid.grid
-    for (index <- 0 to 41) {
-      if (grid(index) == 0) {
+    val json = controller.requestHandler.updateAllGridGui()
+    for(index <- 0 to 41){
+      val value = (json \\ "val")(index).as[Int]
+      if (value == 0) {
         cells(index).foreground = java.awt.Color.WHITE
-      } else if (grid(index) == 1) {
+      } else if (value == 1) {
         cells(index).foreground = java.awt.Color.YELLOW
       } else {
         cells(index).foreground = java.awt.Color.RED

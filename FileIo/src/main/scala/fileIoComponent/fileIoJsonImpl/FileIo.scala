@@ -1,7 +1,6 @@
 package fileIoComponent.fileIoJsonImpl
 
 import Connect4.gridComponent.{Grid, GridInterface}
-import com.google.inject.Guice
 import fileIoComponent.FileIOInterface
 import play.api.libs.json._
 
@@ -9,7 +8,7 @@ import scala.io.Source
 
 class FileIo extends FileIOInterface{
   override def load: (GridInterface,Int) = {
-    var grid:GridInterface = new Grid()
+    var grid:GridInterface = Grid()
     val source: String = Source.fromFile("connect4.json").getLines.mkString
     val json:JsValue = Json.parse(source)
     val player:Int = (json \\"player").head.as[Int]

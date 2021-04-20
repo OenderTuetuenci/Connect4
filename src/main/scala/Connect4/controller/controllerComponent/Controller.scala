@@ -4,15 +4,25 @@ import com.google.inject.Inject
 import Connect4.controller.Commands.MoveCommand
 import Connect4.controller.{saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
 import Connect4.gridComponent.GridInterface
-import Connect4.utils.UndoManager
+import Connect4.utils.{HTTPRequestHandler, UndoManager}
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.client.RequestBuilding.{Get, Post}
+import akka.http.scaladsl.unmarshalling.Unmarshal
+import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import fileIoComponent.FileIOInterface
 
+import java.util.concurrent.TimeUnit
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success, Try}
 
-class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) extends ControllerInterface {
+class Controller @Inject() () extends ControllerInterface with PlayJsonSupport{
   var players: List[Int] = 1::2::Nil
   var winner:Int = 0
   val undoManager = new UndoManager
+  val requestHandler = new HTTPRequestHandler()
 
   def startGame() : Unit = publish(new startGameEvent)
   def save():Unit = {
@@ -36,7 +46,7 @@ class Controller @Inject() (var grid:GridInterface,var fileIo:FileIOInterface) e
   def undo():Unit= undoManager.undoStep()
   def redo():Unit= undoManager.redoStep()
 
-  def checkForWinner(): Boolean = grid.checkConnect4(players.head)
+  def checkForWinner(): Boolean = requestHandler.checkWinner(players.head)
   def nextPlayer():Unit = players = players.tail ::: List(players.head)
   def setPlayer(player:Int):Unit={
     if(player == 1)
