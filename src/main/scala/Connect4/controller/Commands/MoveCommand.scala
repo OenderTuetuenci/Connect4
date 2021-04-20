@@ -1,18 +1,9 @@
 package Connect4.controller.Commands
 
-import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
+import Connect4.controller.controllerComponent.ControllerInterface
 import Connect4.controller.{blockedColumnEvent, endGameEvent, updateGridEvent}
-import Connect4.utils.{Command, HTTPRequestHandler}
-import akka.actor.typed.ActorSystem
-import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.client.RequestBuilding.Post
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import Connect4.utils.Command
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
-
-import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
 
 
 class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extends Command with PlayJsonSupport{

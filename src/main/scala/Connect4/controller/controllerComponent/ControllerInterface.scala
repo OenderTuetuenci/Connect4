@@ -1,6 +1,5 @@
 package Connect4.controller.controllerComponent
 
-import Connect4.gridComponent.GridInterface
 import Connect4.utils.{HTTPRequestHandler, UndoManager}
 
 import scala.swing.Publisher

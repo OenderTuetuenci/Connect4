@@ -20,7 +20,7 @@ import scala.swing.event.ButtonClicked
 import scala.sys.exit
 import scala.util.{Failure, Success, Try}
 
-class GUI(controller: ControllerInterface) extends Frame with PlayJsonSupport {
+class GUI(controller: ControllerInterface) extends Frame {
   listenTo(controller)
   implicit val system = ActorSystem(Behaviors.empty, "my-system")
   implicit val executionContext = system.executionContext

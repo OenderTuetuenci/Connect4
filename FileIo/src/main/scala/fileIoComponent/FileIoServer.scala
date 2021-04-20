@@ -37,8 +37,8 @@ object FileIoServer extends PlayJsonSupport{
     )
   }
   def main(args: Array[String]): Unit = {
-
-    val fileIo:FileIOInterface = new FileIo()
+    val injector: Injector = Guice.createInjector(new FileIoModule)
+    val fileIo:FileIOInterface = injector.getInstance(classOf[FileIOInterface])
     val requestHandler = new HTTPRequestHandler()
 
     val route = concat (
@@ -48,7 +48,7 @@ object FileIoServer extends PlayJsonSupport{
           if (player2 == "") {
             complete(69)
           } else {
-            val json = requestHandler.getJson()
+            val json = requestHandler.getJson
             val grid = requestHandler.rebuildGrid(json)
             fileIo.save(grid,player2.toInt)
             complete(420)

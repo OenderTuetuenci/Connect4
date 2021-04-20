@@ -1,22 +1,12 @@
 package Connect4.controller.controllerComponent
 
-import com.google.inject.Inject
 import Connect4.controller.Commands.MoveCommand
-import Connect4.controller.{saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
-import Connect4.gridComponent.GridInterface
+import Connect4.controller.{saveGameEvent, startGameEvent, updateAllGridEvent}
 import Connect4.utils.{HTTPRequestHandler, UndoManager}
-import akka.actor.typed.ActorSystem
-import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.client.RequestBuilding.{Get, Post}
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import com.google.inject.Inject
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
-import fileIoComponent.FileIOInterface
 
-import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Try}
 
 class Controller @Inject() () extends ControllerInterface with PlayJsonSupport{
   var players: List[Int] = 1::2::Nil

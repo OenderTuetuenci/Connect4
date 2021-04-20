@@ -5,6 +5,7 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
+import com.google.inject.{Guice, Injector}
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import play.api.libs.json._
 
@@ -15,7 +16,8 @@ object GridServer extends PlayJsonSupport{
   implicit val executionContext = system.executionContext
 
   def main(args: Array[String]): Unit = {
-    var grid:GridInterface = Grid()
+    val injector: Injector = Guice.createInjector(new GridModule)
+    var grid:GridInterface = injector.getInstance(classOf[GridInterface])
 
     val route = concat(
       path("model" / "grid") {
