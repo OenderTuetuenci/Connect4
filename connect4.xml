@@ -142,23 +142,23 @@
         </cell>
         <cell>
             <index>35</index>
-            <val>0</val>
+            <val>1</val>
         </cell>
         <cell>
             <index>36</index>
-            <val>0</val>
+            <val>2</val>
         </cell>
         <cell>
             <index>37</index>
-            <val>0</val>
+            <val>1</val>
         </cell>
         <cell>
             <index>38</index>
-            <val>0</val>
+            <val>2</val>
         </cell>
         <cell>
             <index>39</index>
-            <val>0</val>
+            <val>1</val>
         </cell>
         <cell>
             <index>40</index>
@@ -169,5 +169,5 @@
             <val>0</val>
         </cell>
     </grid>
-    <player>1</player>
+    <player>2</player>
 </game>

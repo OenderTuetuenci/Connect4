@@ -1,8 +1,8 @@
 package Connect4
 
+import Connect4.gridComponent.Grid
 import com.google.inject.{Guice, Injector}
 import controller.controllerComponent.ControllerInterface
-import model.gridComponent.Grid
 import view.GUI
 import view.TUI
 

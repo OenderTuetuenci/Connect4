@@ -3,9 +3,9 @@ package Connect4.controller.controllerComponent
 import com.google.inject.Inject
 import Connect4.controller.Commands.MoveCommand
 import Connect4.controller.{saveGameEvent, startGameEvent, updateAllGridEvent, updateGridEvent}
-import Connect4.model.fileIoComponent.FileIOInterface
-import Connect4.model.gridComponent.GridInterface
+import Connect4.gridComponent.GridInterface
 import Connect4.utils.UndoManager
+import fileIoComponent.FileIOInterface
 
 import scala.util.{Failure, Success, Try}
 

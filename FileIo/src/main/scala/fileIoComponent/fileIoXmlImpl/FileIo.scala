@@ -1,19 +1,20 @@
-package Connect4.model.fileIoComponent.fileIoXmlImpl
-import Connect4.model.fileIoComponent.FileIOInterface
-import Connect4.model.gridComponent.{Grid, GridInterface}
+package fileIoComponent.fileIoXmlImpl
+
+import Connect4.gridComponent.{Grid, GridInterface}
+import fileIoComponent.FileIOInterface
 
 import scala.xml.{Elem, PrettyPrinter}
 
 class FileIo extends FileIOInterface{
   override def load: (GridInterface, Int) = {
-    val grid:GridInterface = new Grid()
+    var grid:GridInterface = new Grid()
     val file = scala.xml.XML.loadFile("connect4.xml")
     val player = (file \\ "player").text.trim.toInt
     val gridNodes = file \\ "grid"\\"cell"
     for(cell<-gridNodes){
       val index = (cell\ "index").text.trim.toInt
       val value = (cell\ "val").text.trim.toInt
-      grid.set(index,value)
+      grid = grid.set(index,value)
     }
     (grid,player)
   }
