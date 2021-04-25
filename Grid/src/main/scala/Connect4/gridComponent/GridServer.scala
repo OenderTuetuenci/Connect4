@@ -3,7 +3,6 @@ package Connect4.gridComponent
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import com.google.inject.{Guice, Injector}
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
@@ -81,9 +80,9 @@ object GridServer extends PlayJsonSupport {
       }
     )
 
-    val bindingFuture = Http().newServerAt("localhost", 8080).bind(route)
+    val bindingFuture = Http().newServerAt("0.0.0.0", 8080).bind(route)
 
-    println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
+    println(s"Server online at http://0.0.0.0:8080/\nPress RETURN to stop...")
     StdIn.readLine()
     bindingFuture
       .flatMap(_.unbind())

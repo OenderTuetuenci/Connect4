@@ -1,26 +1,20 @@
 package fileIoComponent
 
-import Connect4.gridComponent.{Grid, GridInterface}
+import Connect4.gridComponent.GridInterface
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.client.RequestBuilding.Post
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.unmarshalling.Unmarshal
+import com.google.inject.{Guice, Injector}
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
-import fileIoComponent.fileIoJsonImpl.FileIo
 import play.api.libs.json._
 
-import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
 import scala.io.StdIn
 
 object FileIoServer extends PlayJsonSupport{
 
   implicit val system = ActorSystem(Behaviors.empty, "my-system")
   implicit val executionContext = system.executionContext
-
 
   def gridToJson(grid: GridInterface):JsObject ={
     Json.obj(
@@ -65,9 +59,9 @@ object FileIoServer extends PlayJsonSupport{
       },
     )
 
-    val bindingFuture = Http().newServerAt("localhost", 8081).bind(route)
+    val bindingFuture = Http().newServerAt("0.0.0.0", 8081).bind(route)
 
-    println(s"Server online at http://localhost:8081/\nPress RETURN to stop...")
+    println(s"Server online at http://0.0.0.0:8081/\nPress RETURN to stop...")
     StdIn.readLine()
     bindingFuture
       .flatMap(_.unbind())

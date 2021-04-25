@@ -19,16 +19,17 @@ class HTTPRequestHandler{
   val injector: Injector = Guice.createInjector(new FileIoModule)
 
   def getJson:String = {
-    val response = Http().singleRequest(Get("http://localhost:8080/model/grid"))
+    val response = Http().singleRequest(Get("http://grid:8080/model/grid"))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[String])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def load(json:String): Unit = {
-    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/rebuild?json="+json))
+    val response = Http().singleRequest(Post("http://grid:8080/model/grid/rebuild?json="+json))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[String])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
+
   def rebuildGrid(tmp:String):GridInterface ={
     var grid:GridInterface = injector.getInstance(classOf[GridInterface])
     val json = Json.parse(tmp)

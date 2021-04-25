@@ -17,49 +17,49 @@ class HTTPRequestHandler extends PlayJsonSupport{
   implicit val executionContext = system.executionContext
 
   def checkWinner(player:Int): Boolean = {
-    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/checkConnect?player=" + player))
+    val response = Http().singleRequest(Post("http://grid:8080/model/grid/checkConnect?player=" + player))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Boolean])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def loadGame(): Int = {
-    val response = Http().singleRequest(Post("http://localhost:8081/fileIo/load"))
+    val response = Http().singleRequest(Post("http://fileio:8081/fileIo/load"))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def saveGame(player:Int):Int = {
-    val response = Http().singleRequest(Get("http://localhost:8081/fileIo/save?player=" + player))
+    val response = Http().singleRequest(Get("http://fileio:8081/fileIo/save?player=" + player))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def doStepMove(column:Int,player:Int): Int = {
-    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/put?column=" + column + "&player=" +player))
+    val response = Http().singleRequest(Post("http://grid:8080/model/grid/put?column=" + column + "&player=" +player))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def undoStepMove(index:Int): Int = {
-    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/set?i="+index +"&value="+0))
+    val response = Http().singleRequest(Post("http://grid:8080/model/grid/set?i="+index +"&value="+0))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def redoStepMove(index:Int, player:Int): Int ={
-    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/set?i="+index +"&value="+player))
+    val response = Http().singleRequest(Post("http://grid:8080/model/grid/set?i="+index +"&value="+player))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def updateAllGridGui(): JsObject = {
-    val response = Http().singleRequest(Get("http://localhost:8080/model/grid"))
+    val response = Http().singleRequest(Get("http://grid:8080/model/grid"))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[JsObject])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
   def showGridTui(): String = {
-    val response = Http().singleRequest(Post("http://localhost:8080/model/grid/toString"))
+    val response = Http().singleRequest(Post("http://grid:8080/model/grid/toString"))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[String])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
