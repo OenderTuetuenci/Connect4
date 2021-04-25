@@ -11,13 +11,13 @@ import play.api.libs.json._
 
 import scala.io.StdIn
 
-object GridServer extends PlayJsonSupport{
+object GridServer extends PlayJsonSupport {
   implicit val system = ActorSystem(Behaviors.empty, "my-system")
   implicit val executionContext = system.executionContext
 
   def main(args: Array[String]): Unit = {
     val injector: Injector = Guice.createInjector(new GridModule)
-    var grid:GridInterface = injector.getInstance(classOf[GridInterface])
+    var grid: GridInterface = injector.getInstance(classOf[GridInterface])
 
     val route = concat(
       path("model" / "grid") {
@@ -25,19 +25,19 @@ object GridServer extends PlayJsonSupport{
           complete(gridToJson(grid))
         }
       },
-      path("model" / "grid" / "toString"){
+      path("model" / "grid" / "toString") {
         post {
           complete(grid.toString)
         }
       },
       path("model" / "grid" / "put") {
-        parameters("column".optional,"player".optional) { (column,player) => {
+        parameters("column".optional, "player".optional) { (column, player) => {
           val column2 = column.getOrElse("")
           val player2 = player.getOrElse("")
-          if(column2 == "" || player2 == "") {
+          if (column2 == "" || player2 == "") {
             complete(69)
-          } else{
-            grid.put(column2.toInt,player2.toInt) match {
+          } else {
+            grid.put(column2.toInt, player2.toInt) match {
               case Some(value) => grid = value._2
                 complete(value._1)
               case None => complete(69)
@@ -46,14 +46,14 @@ object GridServer extends PlayJsonSupport{
         }
         }
       },
-      path("model" / "grid" / "set"){
-        parameters("i".optional,"value".optional) { (i, value) =>
+      path("model" / "grid" / "set") {
+        parameters("i".optional, "value".optional) { (i, value) =>
           val i2 = i.getOrElse("")
           val value2 = value.getOrElse("")
-          if(i2 == "" || value2 == "") {
+          if (i2 == "" || value2 == "") {
             complete(69)
           } else {
-            grid = grid.set(i2.toInt,value2.toInt)
+            grid = grid.set(i2.toInt, value2.toInt)
             complete(420)
           }
         }
@@ -90,15 +90,16 @@ object GridServer extends PlayJsonSupport{
       .onComplete(_ => system.terminate())
 
   }
-  def gridToJson(grid: GridInterface):JsObject ={
+
+  def gridToJson(grid: GridInterface): JsObject = {
     Json.obj(
-      "grid"->Json.obj(
-        "cells"->Json.toJson( for{
+      "grid" -> Json.obj(
+        "cells" -> Json.toJson(for {
           index <- 0 until 42
-        }yield{
+        } yield {
           Json.obj(
-            "index"->index,
-            "val"->grid.grid(index)
+            "index" -> index,
+            "val" -> grid.grid(index)
           )
         })
       )

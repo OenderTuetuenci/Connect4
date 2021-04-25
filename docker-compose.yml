@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+  grid:
+    build:
+      context: ./Grid
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: GridContainer
+    image: grid:1
+    stdin_open: true
+    tty: true
+  fileio:
+    build:
+      context: ./FileIo
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/gameSaves
+    container_name: FileIoContainer
+    image: fileio:1
+    stdin_open: true
+    tty: true
+  root:
+    build: .
+    ports:
+      - "8082:8082"
+    depends_on:
+      - grid
+      - fileio
+    container_name: MainContainer
+    image: main:3
+    stdin_open: true
+    tty: true
+    environment:
+      - PLAYERHTTPSERVER=grid:8080
+      - FILEIOHTTPSERVER=fileio:8081
