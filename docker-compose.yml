@@ -32,5 +32,7 @@ services:
     image: main:7
     stdin_open: true
     environment:
-      - PLAYERHTTPSERVER=grid:8080
-      - FILEIOHTTPSERVER=fileio:8081
+      - DISPLAY=${DISPLAY}
+    volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: host
