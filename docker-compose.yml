@@ -19,7 +19,7 @@ services:
     volumes:
       - .:/gameSaves
     container_name: FileIoContainer
-    image: fileio:2
+    image: fileio:3
     stdin_open: true
   root:
     build: .
@@ -29,7 +29,7 @@ services:
       - grid
       - fileio
     container_name: MainContainer
-    image: main:4
+    image: main:7
     stdin_open: true
     environment:
       - PLAYERHTTPSERVER=grid:8080

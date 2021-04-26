@@ -8,7 +8,7 @@ object connect4 {
   val injector: Injector = Guice.createInjector(new Connect4Module)
   val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val tui = new TUI(controller)
-  val gui = new GUI(controller)
+  //val gui = new GUI(controller)
   controller.startGame()
 
   def main(args: Array[String]): Unit = {
@@ -18,6 +18,6 @@ object connect4 {
       input = scala.io.StdIn.readLine()
       tui.handleInput(input)
     } while (!input.equals("q") || controller.winner == 0)
-    gui.closeOperation()
+    //gui.closeOperation()
   }
 }
