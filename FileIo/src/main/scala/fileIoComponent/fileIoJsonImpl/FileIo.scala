@@ -19,19 +19,4 @@ class FileIo extends FileIOInterface{
     pw.write(Json.prettyPrint(json2))
     pw.close()
   }
-  def gridToJson(grid: GridInterface, player: Int):JsObject ={
-    Json.obj(
-      "grid"->Json.obj(
-        "cells"->Json.toJson( for{
-          index <- 0 until 41
-        }yield{
-          Json.obj(
-            "index"->index,
-            "val"->grid.grid(index)
-          )
-        }),
-        "player"->JsNumber(player)
-      )
-    )
-  }
 }

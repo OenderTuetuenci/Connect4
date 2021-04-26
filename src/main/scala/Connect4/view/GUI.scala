@@ -1,24 +1,15 @@
 package Connect4.view
 
-import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
-import Connect4.controller.{blockedColumnEvent, endGameEvent, saveGameEvent, updateAllGridEvent, updateGridEvent}
-import Connect4.gridComponent.GridInterface
+import Connect4.controller.controllerComponent.ControllerInterface
+import Connect4.controller._
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.client.RequestBuilding.Get
-import akka.http.scaladsl.unmarshalling.Unmarshal
-import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
-import play.api.libs.json.{JsObject, Json}
 
-import java.util.concurrent.TimeUnit
 import javax.swing.border.LineBorder
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import scala.sys.exit
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 
 class GUI(controller: ControllerInterface) extends Frame {
   listenTo(controller)

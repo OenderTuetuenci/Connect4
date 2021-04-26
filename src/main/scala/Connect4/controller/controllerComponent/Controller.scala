@@ -16,13 +16,12 @@ class Controller @Inject() () extends ControllerInterface with PlayJsonSupport{
 
   def startGame() : Unit = publish(new startGameEvent)
   def save():Unit = {
-    fileIo.save(grid,players.head)
+    val status = requestHandler.saveGame(players.head)
     publish(new saveGameEvent)
   }
   def load():Unit ={
-    val stats = fileIo.load
-    grid=stats._1
-    setPlayer(stats._2)
+    val stats = requestHandler.loadGame()
+    setPlayer(stats)
     publish(new updateAllGridEvent)
   }
   def move(column: String): Try[Unit] = {
