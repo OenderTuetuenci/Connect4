@@ -1,13 +1,11 @@
 package fileIoComponent
 
-import Connect4.gridComponent.GridInterface
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.client.RequestBuilding.{Get, Post}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import com.google.inject.{Guice, Injector}
-import play.api.libs.json.Json
 
 import java.util.concurrent.TimeUnit
 import scala.concurrent.Await
@@ -28,16 +26,5 @@ class HTTPRequestHandler{
     val response = Http().singleRequest(Post("http://grid:8080/model/grid/rebuild?json="+json))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[String])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
-  }
-
-  def rebuildGrid(tmp:String):GridInterface ={
-    var grid:GridInterface = injector.getInstance(classOf[GridInterface])
-    val json = Json.parse(tmp)
-    for(index <- 0 to 41){
-      val idx = (json \\ "index")(index).as[Int]
-      val value = (json \\ "val")(index).as[Int]
-      grid = grid.set(idx,value)
-    }
-    grid
   }
 }

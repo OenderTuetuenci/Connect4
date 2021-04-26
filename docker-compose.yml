@@ -10,7 +10,6 @@ services:
     container_name: GridContainer
     image: grid:1
     stdin_open: true
-    tty: true
   fileio:
     build:
       context: ./FileIo
@@ -20,9 +19,8 @@ services:
     volumes:
       - .:/gameSaves
     container_name: FileIoContainer
-    image: fileio:1
+    image: fileio:2
     stdin_open: true
-    tty: true
   root:
     build: .
     ports:
@@ -31,9 +29,8 @@ services:
       - grid
       - fileio
     container_name: MainContainer
-    image: main:3
+    image: main:4
     stdin_open: true
-    tty: true
     environment:
       - PLAYERHTTPSERVER=grid:8080
       - FILEIOHTTPSERVER=fileio:8081

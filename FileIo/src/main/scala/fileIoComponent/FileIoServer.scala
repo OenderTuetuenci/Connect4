@@ -1,6 +1,5 @@
 package fileIoComponent
 
-import Connect4.gridComponent.GridInterface
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
@@ -16,20 +15,6 @@ object FileIoServer extends PlayJsonSupport{
   implicit val system = ActorSystem(Behaviors.empty, "my-system")
   implicit val executionContext = system.executionContext
 
-  def gridToJson(grid: GridInterface):JsObject ={
-    Json.obj(
-      "grid"->Json.obj(
-        "cells"->Json.toJson( for{
-          index <- 0 until 42
-        }yield{
-          Json.obj(
-            "index"->index,
-            "val"->grid.grid(index)
-          )
-        })
-      )
-    )
-  }
   def main(args: Array[String]): Unit = {
     val injector: Injector = Guice.createInjector(new FileIoModule)
     val fileIo:FileIOInterface = injector.getInstance(classOf[FileIOInterface])
@@ -43,8 +28,7 @@ object FileIoServer extends PlayJsonSupport{
             complete(69)
           } else {
             val json = requestHandler.getJson
-            val grid = requestHandler.rebuildGrid(json)
-            fileIo.save(grid,player2.toInt)
+            fileIo.save(json,player2.toInt)
             complete(420)
           }
         }
@@ -52,7 +36,8 @@ object FileIoServer extends PlayJsonSupport{
       path("fileIo" / "load") {
         post{
           val stats = fileIo.load
-          val json = gridToJson(stats._1)
+          val json = Json.parse(stats._1)
+          val grid = (json \\ "grid")
           val result = requestHandler.load(json.toString())
           complete(stats._2)
         }

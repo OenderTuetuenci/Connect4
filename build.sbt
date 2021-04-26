@@ -29,4 +29,4 @@ lazy val grid = (project in file("Grid")).settings(
 lazy val fileIo = (project in file("FileIo")).settings(
   commonSettings,
   name := "Connect4-FileIO"
-).dependsOn(grid)
+)

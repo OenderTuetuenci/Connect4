@@ -1,11 +1,9 @@
 package fileIoComponent
 
-import Connect4.gridComponent.GridInterface
-
 trait FileIOInterface {
 
-  def load: (GridInterface, Int)
+  def load: (String, Int)
 
-  def save(grid: GridInterface, player: Int): Unit
+  def save(json: String, player: Int): Unit
 
 }

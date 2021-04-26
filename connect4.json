@@ -119,14 +119,13 @@
       "val" : 2
     }, {
       "index" : 39,
-      "val" : 0
+      "val" : 1
     }, {
       "index" : 40,
       "val" : 1
     }, {
       "index" : 41,
       "val" : 2
-    } ],
-    "player" : 1
+    } ]
   }
 }
