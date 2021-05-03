@@ -1,5 +1,6 @@
 package Connect4.gridComponent
 
+import Connect4.gridComponent.DBComponent.DAO
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
@@ -17,7 +18,8 @@ object GridServer extends PlayJsonSupport {
   def main(args: Array[String]): Unit = {
     val injector: Injector = Guice.createInjector(new GridModule)
     var grid: GridInterface = injector.getInstance(classOf[GridInterface])
-
+    val dataBase: DAO = injector.getInstance(classOf[DAO])
+    dataBase.create()
     val route = concat(
       path("model" / "grid") {
         get {
@@ -76,6 +78,24 @@ object GridServer extends PlayJsonSupport {
             grid = grid.rebuild(json2)
             complete(420)
           }
+        }
+      },
+      path("model" / "grid" /"saveDB"){
+        post{
+          dataBase.update(grid)
+          complete(420)
+        }
+      },
+      path("model" / "grid" /"load"){
+        post{
+          grid = dataBase.read()
+          complete(420)
+        }
+      },
+      path("model"/ "grid" / "newgame"){
+        get{
+          grid = injector.getInstance(classOf[GridInterface])
+          complete(420)
         }
       }
     )

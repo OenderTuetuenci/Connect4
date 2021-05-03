@@ -23,13 +23,13 @@ class HTTPRequestHandler extends PlayJsonSupport{
   }
 
   def loadGame(): Int = {
-    val response = Http().singleRequest(Post("http://0.0.0.0:8081/fileIo/load"))
+    val response = Http().singleRequest(Post("http://0.0.0.0:8080/model/grid/load"))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }
 
-  def saveGame(player:Int):Int = {
-    val response = Http().singleRequest(Get("http://0.0.0.0:8081/fileIo/save?player=" + player))
+  def saveGame():Int = {
+    val response = Http().singleRequest(Post("http://0.0.0.0:8080/model/grid/saveDB"))
     val jsonFuture = response.flatMap(r => Unmarshal(r.entity).to[Int])
     Await.result(jsonFuture, Duration(10, TimeUnit.SECONDS))
   }

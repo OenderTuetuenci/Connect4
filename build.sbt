@@ -14,7 +14,13 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
     "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion
   ),
-  libraryDependencies += "de.heikoseeberger" %% "akka-http-play-json" % "1.32.0"
+  libraryDependencies += "de.heikoseeberger" %% "akka-http-play-json" % "1.32.0",
+  libraryDependencies ++= Seq(
+    "com.typesafe.slick" %% "slick" % "3.3.3",
+    "org.slf4j" % "slf4j-nop" % "1.6.4",
+    "mysql" % "mysql-connector-java" % "8.0.20",
+    "org.mongodb.scala" %% "mongo-scala-driver" % "4.0.4",
+  )
 )
 
 lazy val root = (project in file(".")).settings(
