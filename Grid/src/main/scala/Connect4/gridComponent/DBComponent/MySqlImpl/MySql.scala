@@ -21,7 +21,7 @@ class MySql extends DAO{
   val injector: Injector = Guice.createInjector(new GridModule)
   val gridTable = TableQuery[GridTable]
   val db = Database.forURL(
-    url = "jdbc:mysql://localhost:3306/connect4?serverTimezone=UTC",
+    url = "jdbc:mysql://database:3306/connect4?serverTimezone=UTC", //change database to localhost if u are not running with with docker compos
     driver = "com.mysql.cj.jdbc.Driver",
     user = "connect4",
     password = "bestpasswordever"
