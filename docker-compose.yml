@@ -1,6 +1,16 @@
 version: "3.3"
 
 services:
+  database:
+    build:
+      context: ./Database/MySQL
+      dockerfile: ./Dockerfile
+    ports:
+    - "3306:3306"
+    container_name: DatabaseContainer
+    image: mysql:1
+    security_opt:
+      - seccomp:unconfined
   grid:
     build:
       context: ./Grid
@@ -10,6 +20,8 @@ services:
     container_name: GridContainer
     image: grid:1
     stdin_open: true
+    depends_on:
+      - database
   fileio:
     build:
       context: ./FileIo
@@ -28,6 +40,7 @@ services:
     depends_on:
       - grid
       - fileio
+      - database
     container_name: MainContainer
     image: main:7
     stdin_open: true
