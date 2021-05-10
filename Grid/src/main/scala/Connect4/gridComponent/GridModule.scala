@@ -7,6 +7,6 @@ import net.codingwell.scalaguice.ScalaModule
 class GridModule extends AbstractModule with ScalaModule{
   override def configure(): Unit ={
     bind[GridInterface].toInstance(Grid())
-    bind[DAO].to[DBComponent.MySqlImpl.MySql]
+    bind[DAO].to[DBComponent.MongoDBImpl.MongoDB]
   }
 }

@@ -8,6 +8,6 @@ import net.codingwell.scalaguice.ScalaModule
 class Connect4Module extends AbstractModule with ScalaModule{
   override def configure(): Unit = {
     bind[ControllerInterface].to[controller.controllerComponent.Controller]
-    bind[DAO].to[controller.DBComponent.MySqlImp.MySql]
+    bind[DAO].to[controller.DBComponent.MongoDBImpl.MongoDB]
   }
 }

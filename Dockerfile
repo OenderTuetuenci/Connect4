@@ -4,7 +4,7 @@ RUN \
   apt-get update && \
   apt-get install -y sbt libxrender1 libxtst6 libxi6 && \
   apt install -y xauth && \
-  xauth add onder-ThinkPad-E495/unix:0  MIT-MAGIC-COOKIE-1  111ee4c688cc7ca3bcb180eeb240fef3
+  xauth add onder-ThinkPad-E495/unix:0  MIT-MAGIC-COOKIE-1  19faa2cfd150958d760def6d6fe6892e
 WORKDIR /game
 ADD . /game
 CMD sbt run
