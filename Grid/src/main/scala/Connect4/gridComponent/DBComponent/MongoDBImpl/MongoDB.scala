@@ -42,7 +42,7 @@ class MongoDB extends DAO{
     insertObservable.subscribe(new Observer[InsertOneResult] {
       override def onNext(result: InsertOneResult): Unit = println(s"inserted: $result")
 
-      override def onError(e: Throwable): Unit = println(s"onError: $e")
+      override def onError(e: Throwable): Unit = {}//println(s"onError: $e")
 
       override def onComplete(): Unit = println("completed")
     })
@@ -51,7 +51,7 @@ class MongoDB extends DAO{
     insertObservable.subscribe(new Observer[UpdateResult] {
       override def onNext(result: UpdateResult): Unit = println(s"inserted: $result")
 
-      override def onError(e: Throwable): Unit = println(s"onError: $e")
+      override def onError(e: Throwable): Unit = {}//println(s"onError: $e")
 
       override def onComplete(): Unit = println("completed")
     })
