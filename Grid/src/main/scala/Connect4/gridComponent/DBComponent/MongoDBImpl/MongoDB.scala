@@ -12,7 +12,7 @@ import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase,
 import play.api.libs.json.{JsObject, Json}
 
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{Await, ExecutionContextExecutor}
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 
 class MongoDB extends DAO{
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "my-system")
@@ -24,38 +24,19 @@ class MongoDB extends DAO{
 
   val gridCollection:MongoCollection[Document] = database.getCollection("Grid")
 
-  override def create(): Unit = handleObserverInsertion(gridCollection.insertOne(Document("_id"->0,"grid" ->"")))
+  override def create(): Unit = gridCollection.insertOne(Document("_id"->0,"grid" ->""))
 
-  override def read(): GridInterface = {
+  override def read(): Future[GridInterface] = Future{
     var grid: GridInterface = injector.getInstance(classOf[GridInterface])
     val result = Await.result(gridCollection.find(equal("_id", 0)).first().head(), atMost = 10.second)("grid").asString().getValue
     grid = grid.rebuild(result)
     grid
   }
 
-  override def update(grid: GridInterface): Unit = handleObserverUpdate(gridCollection.updateOne(equal("_id",0),set("grid",gridToJson(grid).toString())))
+  override def update(grid: GridInterface): Unit = gridCollection.updateOne(equal("_id",0),set("grid",gridToJson(grid).toString()))
 
-  override def delete(): Unit = gridCollection.drop()
+  override def delete(): Future[Any] = gridCollection.drop().toFuture()
 
-
-  private def handleObserverInsertion(insertObservable: SingleObservable[InsertOneResult]): Unit = {
-    insertObservable.subscribe(new Observer[InsertOneResult] {
-      override def onNext(result: InsertOneResult): Unit = println(s"inserted: $result")
-
-      override def onError(e: Throwable): Unit = {}//println(s"onError: $e")
-
-      override def onComplete(): Unit = println("completed")
-    })
-  }
-  private def handleObserverUpdate(insertObservable: SingleObservable[UpdateResult]): Unit = {
-    insertObservable.subscribe(new Observer[UpdateResult] {
-      override def onNext(result: UpdateResult): Unit = println(s"inserted: $result")
-
-      override def onError(e: Throwable): Unit = {}//println(s"onError: $e")
-
-      override def onComplete(): Unit = println("completed")
-    })
-  }
   private def gridToJson(grid: GridInterface): JsObject = {
     Json.obj(
       "grid" -> Json.obj(

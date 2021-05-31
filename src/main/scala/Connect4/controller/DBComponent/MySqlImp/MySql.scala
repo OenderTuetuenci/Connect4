@@ -10,7 +10,7 @@ import slick.lifted.TableQuery
 import slick.jdbc.MySQLProfile.api._
 
 import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
 
 class MySql extends DAO{
@@ -24,7 +24,7 @@ class MySql extends DAO{
     password = "bestpasswordever"
   )
 
-  override def create(): Unit = {
+  override def create(): Future[Any] = {
     val setup = DBIO.seq(playerTable.schema.createIfNotExists)
     Await.result(db.run(setup),Duration(10,TimeUnit.SECONDS))
     val insertQuery = {
@@ -36,7 +36,7 @@ class MySql extends DAO{
         }
       ).transactionally
     }
-    Await.result(db.run(insertQuery),Duration(10,TimeUnit.SECONDS))
+    db.run(insertQuery)
   }
   override def read(): Int = {
     val readQuery = playerTable.take(1).result
@@ -44,10 +44,10 @@ class MySql extends DAO{
     player.head._2
   }
 
-  override def update(player:Int): Unit = {
+  override def update(player:Int): Future[Any] = {
     val updateQuery = playerTable.filter(_.id === 0).update((0,player))
-    Await.result(db.run(updateQuery),Duration(10,TimeUnit.SECONDS))
+    db.run(updateQuery)
   }
 
-  override def delete(): Unit = Await.result(db.run(playerTable.delete),Duration.Inf)
+  override def delete(): Future[Any] = db.run(playerTable.delete)
 }

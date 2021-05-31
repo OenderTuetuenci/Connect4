@@ -9,6 +9,8 @@ import com.google.inject.{Guice, Injector}
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 import play.api.libs.json._
 
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import scala.io.StdIn
 
 object GridServer extends PlayJsonSupport {
@@ -88,7 +90,7 @@ object GridServer extends PlayJsonSupport {
       },
       path("model" / "grid" /"load"){
         post{
-          grid = dataBase.read()
+          grid = Await.result(dataBase.read(),Duration.Inf)
           complete(420)
         }
       },

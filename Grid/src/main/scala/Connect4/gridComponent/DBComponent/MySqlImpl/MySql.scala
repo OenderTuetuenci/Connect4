@@ -12,7 +12,7 @@ import slick.jdbc.MySQLProfile.api._
 import slick.lifted.TableQuery
 
 import java.util.concurrent.TimeUnit
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
 
 class MySql extends DAO{
@@ -40,11 +40,11 @@ class MySql extends DAO{
           }
         ).transactionally
       }
-      Await.result(db.run(updateQuery),Duration.Inf)
+      db.run(updateQuery)
     }
   }
 
-  override def read(): GridInterface = {
+  override def read(): Future[GridInterface] = Future{
     var grid: GridInterface = injector.getInstance(classOf[GridInterface])
     val selectQuery = for (i<- gridTable) yield (i.index,i.value)
     val gridTuples = Await.result(db.run(selectQuery.result),Duration.Inf)
@@ -55,12 +55,12 @@ class MySql extends DAO{
   }
 
   override def update(grid: GridInterface): Unit = {
-    for(index<-grid.grid.indices){
+    for(index<-grid.grid.indices) {
       val value = grid.grid(index)
-      val updateQuery = gridTable.filter(_.index === index).update((index,value))
-      Await.result(db.run(updateQuery),Duration.Inf)
+      val updateQuery = gridTable.filter(_.index === index).update((index, value))
+      db.run(updateQuery)
     }
   }
 
-  override def delete(): Unit = Await.result(db.run(gridTable.delete),Duration.Inf)
+  override def delete(): Future[Any] = db.run(gridTable.delete)
 }

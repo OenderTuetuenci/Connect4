@@ -1,8 +1,10 @@
 package Connect4.controller.DBComponent
 
+import scala.concurrent.Future
+
 trait DAO {
-  def create():Unit
+  def create():Future[Any]
   def read():Int
-  def update(player:Int):Unit
-  def delete():Unit
+  def update(player:Int):Future[Any]
+  def delete():Future[Any]
 }
