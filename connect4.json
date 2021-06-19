@@ -1,174 +1,131 @@
 {
   "grid" : {
     "cells" : [ {
-      "row" : 0,
-      "col" : 0,
+      "index" : 0,
       "val" : 0
     }, {
-      "row" : 0,
-      "col" : 1,
+      "index" : 1,
       "val" : 0
     }, {
-      "row" : 0,
-      "col" : 2,
+      "index" : 2,
       "val" : 0
     }, {
-      "row" : 0,
-      "col" : 3,
+      "index" : 3,
       "val" : 0
     }, {
-      "row" : 0,
-      "col" : 4,
+      "index" : 4,
       "val" : 0
     }, {
-      "row" : 0,
-      "col" : 5,
+      "index" : 5,
       "val" : 0
     }, {
-      "row" : 0,
-      "col" : 6,
+      "index" : 6,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 0,
+      "index" : 7,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 1,
+      "index" : 8,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 2,
+      "index" : 9,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 3,
+      "index" : 10,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 4,
+      "index" : 11,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 5,
+      "index" : 12,
       "val" : 0
     }, {
-      "row" : 1,
-      "col" : 6,
+      "index" : 13,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 0,
+      "index" : 14,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 1,
+      "index" : 15,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 2,
+      "index" : 16,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 3,
+      "index" : 17,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 4,
+      "index" : 18,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 5,
+      "index" : 19,
       "val" : 0
     }, {
-      "row" : 2,
-      "col" : 6,
+      "index" : 20,
       "val" : 0
     }, {
-      "row" : 3,
-      "col" : 0,
-      "val" : 0
-    }, {
-      "row" : 3,
-      "col" : 1,
-      "val" : 0
-    }, {
-      "row" : 3,
-      "col" : 2,
-      "val" : 0
-    }, {
-      "row" : 3,
-      "col" : 3,
-      "val" : 0
-    }, {
-      "row" : 3,
-      "col" : 4,
-      "val" : 0
-    }, {
-      "row" : 3,
-      "col" : 5,
-      "val" : 0
-    }, {
-      "row" : 3,
-      "col" : 6,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 0,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 1,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 2,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 3,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 4,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 5,
-      "val" : 0
-    }, {
-      "row" : 4,
-      "col" : 6,
-      "val" : 0
-    }, {
-      "row" : 5,
-      "col" : 0,
+      "index" : 21,
       "val" : 1
     }, {
-      "row" : 5,
-      "col" : 1,
+      "index" : 22,
+      "val" : 2
+    }, {
+      "index" : 23,
       "val" : 0
     }, {
-      "row" : 5,
-      "col" : 2,
+      "index" : 24,
       "val" : 0
     }, {
-      "row" : 5,
-      "col" : 3,
+      "index" : 25,
       "val" : 0
     }, {
-      "row" : 5,
-      "col" : 4,
+      "index" : 26,
       "val" : 0
     }, {
-      "row" : 5,
-      "col" : 5,
+      "index" : 27,
       "val" : 0
     }, {
-      "row" : 5,
-      "col" : 6,
+      "index" : 28,
+      "val" : 1
+    }, {
+      "index" : 29,
+      "val" : 2
+    }, {
+      "index" : 30,
       "val" : 0
-    } ],
-    "player" : 2
+    }, {
+      "index" : 31,
+      "val" : 0
+    }, {
+      "index" : 32,
+      "val" : 0
+    }, {
+      "index" : 33,
+      "val" : 0
+    }, {
+      "index" : 34,
+      "val" : 0
+    }, {
+      "index" : 35,
+      "val" : 1
+    }, {
+      "index" : 36,
+      "val" : 2
+    }, {
+      "index" : 37,
+      "val" : 1
+    }, {
+      "index" : 38,
+      "val" : 2
+    }, {
+      "index" : 39,
+      "val" : 1
+    }, {
+      "index" : 40,
+      "val" : 1
+    }, {
+      "index" : 41,
+      "val" : 2
+    } ]
   }
 }

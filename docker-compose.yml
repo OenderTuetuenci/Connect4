@@ -1,0 +1,51 @@
+version: "3.3"
+
+services:
+  database:
+    build:
+      context: ./Database/MySQL
+      dockerfile: ./Dockerfile
+    ports:
+    - "3306:3306"
+    container_name: DatabaseContainer
+    image: mysql:1
+    security_opt:
+      - seccomp:unconfined
+  grid:
+    build:
+      context: ./Grid
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: GridContainer
+    image: grid:1
+    stdin_open: true
+    depends_on:
+      - database
+  fileio:
+    build:
+      context: ./FileIo
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/gameSaves
+    container_name: FileIoContainer
+    image: fileio:3
+    stdin_open: true
+  root:
+    build: .
+    ports:
+      - "8082:8082"
+    depends_on:
+      - grid
+      - fileio
+      - database
+    container_name: MainContainer
+    image: main:7
+    stdin_open: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: host

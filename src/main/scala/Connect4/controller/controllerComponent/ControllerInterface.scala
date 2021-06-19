@@ -1,31 +1,31 @@
 package Connect4.controller.controllerComponent
 
-import Connect4.model.gridComponent.GridInterface
-import Connect4.utils.UndoManager
+import Connect4.utils.{HTTPRequestHandler, UndoManager}
 
 import scala.swing.Publisher
+import scala.util.Try
 
 trait ControllerInterface extends Publisher {
+  val undoManager: UndoManager
   var players: List[Int]
   var winner: Int
-  val undoManager: UndoManager
-  var grid: GridInterface
-
-  def getGridString: String
+  val requestHandler:HTTPRequestHandler
 
   def startGame(): Unit
 
-  def move(column: Int): Unit
+  def move(column: String): Try[Unit]
 
   def undo(): Unit
 
   def redo(): Unit
 
-  def checkForWinner(stone: (Int, Int)): Boolean
+  def checkForWinner(): Boolean
 
   def nextPlayer(): Unit
 
-  def resetPlayer(player: Int): Unit
-  def save():Unit
-  def load():Unit
+  def setPlayer(player: Int): Unit
+
+  def save(): Unit
+
+  def load(): Unit
 }

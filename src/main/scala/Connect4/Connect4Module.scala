@@ -1,16 +1,13 @@
 package Connect4
 
-import controller.controllerComponent._
-import model.fileIoComponent.FileIOInterface
-import model.gridComponent.{Grid, GridInterface}
+import Connect4.controller.DBComponent.DAO
+import Connect4.controller.controllerComponent._
 import com.google.inject.AbstractModule
 import net.codingwell.scalaguice.ScalaModule
 
 class Connect4Module extends AbstractModule with ScalaModule{
   override def configure(): Unit = {
-    bind[GridInterface].to[Grid]
     bind[ControllerInterface].to[controller.controllerComponent.Controller]
-    //bind[FileIOInterface].to[Connect4.model.fileIoComponent.fileIoJsonImpl.FileIo]
-    bind[FileIOInterface].to[model.fileIoComponent.fileIoXmlImpl.FileIo]
+    bind[DAO].to[controller.DBComponent.MongoDBImpl.MongoDB]
   }
 }

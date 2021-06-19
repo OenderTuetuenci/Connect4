@@ -1,45 +1,38 @@
 package Connect4.controller.Commands
 
-import Connect4.controller.controllerComponent.{Controller, ControllerInterface}
+import Connect4.controller.controllerComponent.ControllerInterface
 import Connect4.controller.{blockedColumnEvent, endGameEvent, updateGridEvent}
 import Connect4.utils.Command
+import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 
 
-class MoveCommand(column:Int,player:Int, controller:ControllerInterface) extends Command{
-  var stone:(Int,Int) = (-1,-1)
+class MoveCommand(column:Int, player:Int, controller:ControllerInterface) extends Command with PlayJsonSupport{
+  var index:Int = -1
+
   override def doStep(): Unit = {
-    stone = controller.grid.put(column, player)
-    var end: Boolean = false
-    if(stone.equals((-1,-1)))
+    index = controller.requestHandler.doStepMove(column,player)
+    if(index == 69)
       controller.publish(new blockedColumnEvent)
-    else {
-      end = controller.checkForWinner(stone)
-      if(!end) {
-        controller.nextPlayer()
-        controller.publish(updateGridEvent(stone,player))
-      }
-      else
-        controller.publish(new endGameEvent)
-    }
+    else
+      update()
   }
   override def undoStep(): Unit = {
-    controller.grid.resetValue(stone._1,stone._2)
-    controller.resetPlayer(player)
-    controller.publish(updateGridEvent(stone,0))
+    val tmp = controller.requestHandler.undoStepMove(index)
+    controller.setPlayer(player)
+    controller.publish(updateGridEvent(index,0))
   }
   override def redoStep(): Unit = {
-    stone = controller.grid.put(column, player)
-    var end: Boolean = false
-    if(stone.equals((-1,-1)))
-      controller.publish(new blockedColumnEvent)
-    else {
-      end = controller.checkForWinner(stone)
-      if(!end) {
-        controller.nextPlayer()
-        controller.publish(updateGridEvent(stone,player))
-      }
-      else
-        controller.publish(new endGameEvent)
+    val tmp = controller.requestHandler.redoStepMove(index, player)
+    update()
+  }
+  private def update(): Unit ={
+    val end: Boolean = controller.checkForWinner()
+    if(!end){
+      controller.nextPlayer()
+      controller.publish(updateGridEvent(index,player))
+    } else {
+      controller.publish(updateGridEvent(index,player))
+      controller.publish(new endGameEvent)
     }
   }
 }

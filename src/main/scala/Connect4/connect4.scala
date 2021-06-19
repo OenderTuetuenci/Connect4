@@ -1,11 +1,10 @@
 package Connect4
 
+import Connect4.controller.controllerComponent.ControllerInterface
+import Connect4.view.{GUI, TUI}
 import com.google.inject.{Guice, Injector}
-import controller.controllerComponent.ControllerInterface
-import view.GUI
-import view.TUI
 
-object Connect4 {
+object connect4 {
   val injector: Injector = Guice.createInjector(new Connect4Module)
   val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val tui = new TUI(controller)
@@ -16,7 +15,7 @@ object Connect4 {
     //Loop for Tui
     var input: String = ""
     do {
-      input = readLine()
+      input = scala.io.StdIn.readLine()
       tui.handleInput(input)
     } while (!input.equals("q") || controller.winner == 0)
     gui.closeOperation()
