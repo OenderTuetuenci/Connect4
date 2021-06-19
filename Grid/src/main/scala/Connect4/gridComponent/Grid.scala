@@ -8,15 +8,11 @@ case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, column
                 limit: Vector[Int] = (35 to 41).toVector) extends GridInterface {
 
   def up(i: Int, m: Int): Int = i - m
-
   def down(i: Int, m: Int): Int = i + m
 
   def verticalMove(direction: (Int, Int) => Int)(i: Int): Int = direction(i, 7)
-
   def horizontalMove(direction: (Int, Int) => Int)(i: Int): Int = direction(i, 1)
-
   def diagonalLeftMove(direction: (Int, Int) => Int)(i: Int): Int = direction(i, 6)
-
   def diagonalRightMove(direction: (Int, Int) => Int)(i: Int): Int = direction(i, 8)
 
   override def set(i: Int, value: Int): GridInterface = this.copy(grid = grid.updated(i, value))
@@ -81,6 +77,7 @@ case class Grid(grid: Vector[Int] = Vector.fill(6 * 7)(0), rows: Int = 6, column
     }
     temp
   }
+
   override def rebuild(json: String): GridInterface = {
     var grid:GridInterface = Grid()
     val tmp = Json.parse(json)

@@ -17,11 +17,11 @@ import scala.concurrent.{Await, ExecutionContextExecutor}
 class MongoDB extends DAO{
   implicit val system: ActorSystem[Nothing] = ActorSystem(Behaviors.empty, "my-system")
   implicit val executionContext: ExecutionContextExecutor = system.executionContext
+
   val injector: Injector = Guice.createInjector(new GridModule)
   val uri: String = "mongodb://localhost:27017"
   val client: MongoClient = MongoClient(uri)
   val database: MongoDatabase = client.getDatabase("connect4")
-
   val gridCollection:MongoCollection[Document] = database.getCollection("Grid")
 
   override def create(): Unit = handleObserverInsertion(gridCollection.insertOne(Document("_id"->0,"grid" ->"")))

@@ -27,9 +27,8 @@ class Controller @Inject() () extends ControllerInterface with PlayJsonSupport{
     publish(new saveGameEvent)
   }
   def load():Unit ={
-    //val stats = requestHandler.loadGame()
     val player = dataBase.read()
-    val stats = requestHandler.loadGame()
+    requestHandler.loadGame()
     setPlayer(player)
     publish(new updateAllGridEvent)
   }
